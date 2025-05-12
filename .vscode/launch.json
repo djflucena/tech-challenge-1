@@ -1,0 +1,17 @@
+{
+    // Configuration for debugging FastAPI in development mode
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: FastAPI",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "src.main:app", // The FastAPI app is located in /src/main.py
+                "--reload"
+            ],
+            "jinja": true
+        }
+    ]
+}
