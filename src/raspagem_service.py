@@ -1,3 +1,5 @@
+from src.utils import extrair_numeros
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -27,7 +29,22 @@ class ProducaoRaspagem:
             raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
 
     def converter_dados(self):
+        data_table = self.html.find('table', class_='tb_base tb_dados')
+        table_header_coluna_esquerda = data_table.find('thead').findChildren('th')[0].string.strip()
+        table_footer_total_text = data_table.find('tfoot').findChildren('td')[0].string.strip()
+        table_footer_total_val = data_table.find('tfoot').findChildren('td')[1].string.strip()
+
+        produtos = []
+        """for td in data_table.find('tbody').find_all('td'):
+            if "tb_item" in td['class']:
+                
+            elif "tb_subitem" in td['class']:
+                print("aqui")"""
         return {
+            table_header_coluna_esquerda: produtos,
+            table_footer_total_text: extrair_numeros(table_footer_total_val),
+        }
+        """{
             "Produto": [
                 {
                     "VINHO DE MESA": "217208604",
@@ -57,5 +74,5 @@ class ProducaoRaspagem:
                 }
             ],
             "Total": 256370050
-        }
+        }"""
     
