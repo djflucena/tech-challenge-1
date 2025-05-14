@@ -36,6 +36,18 @@ class TestProducaoRaspagem(unittest.TestCase):
                 raspagem.buscar_html(1970)
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Failed to fetch HTML. Status code: 404")
+    
+    def test_buscar_html_request_500(self):
+        mock_response = Mock()
+        mock_response.status_code = 500
+        mock_response.text = self.mock_html_content
+
+        with patch("requests.get", return_value=mock_response):
+            with self.assertRaises(Exception) as context:
+                raspagem = ProducaoRaspagem()
+                raspagem.buscar_html(1970)
+                self.assertIsNone(raspagem.html)
+                self.assertEqual(context.msg, "Failed to fetch HTML. Status code: 500")
 
     def test_converter_dados(self):
         raspagem = ProducaoRaspagem()
