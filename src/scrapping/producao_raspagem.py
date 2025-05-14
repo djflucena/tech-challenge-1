@@ -48,17 +48,12 @@ class ProducaoRaspagem:
                     item = self.extrair_item(tds)
                     item["TIPOS"] = []
                     id_item_corrente = list(item.keys())[0]
-                    print(id_item_corrente)
                     produtos.append(item)
                 elif tds[0]['class'][0] == "tb_subitem":
                     subitem = self.extrair_item(tds)
                     item_corrente = self.procurar_item_id(produtos, id_item_corrente)
                     if item_corrente != -1:
                         produtos[item_corrente]["TIPOS"].append(subitem)
-                    else:
-                        pass
-                else:
-                    pass
         except Exception as e:
             raise Exception(f"Erro ao processar o html")
         return {
