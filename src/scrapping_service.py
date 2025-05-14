@@ -1,10 +1,21 @@
+from bs4 import BeautifulSoup
+import requests
+
 class RaspagemService:
     def __init__(self, url):
         self.url = url
         self.html = None
 
-    def buscar_dados(self):
-        self.html = "Fetched data from URL"
+    def buscar_html(self, ano: int) -> None:
+        """
+            Busca a página HTML e armazena no atributo html.
+            :param ano: Ano para o qual o html deve ser buscado.
+        """
+        response = requests.get(f"{self.url}?ano={ano}")
+        if response.status_code == 200:
+            self.html = BeautifulSoup(response.text, 'html.parser')
+        else:
+            raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
 
     def converter_dados(self):
         return {
