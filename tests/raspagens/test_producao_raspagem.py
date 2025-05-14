@@ -59,10 +59,10 @@ class TestProducaoRaspagem(unittest.TestCase):
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Request timed out")
 
-    def test_converter_dados(self):
+    def test_parser_html(self):
         raspagem = ProducaoRaspagem()
         raspagem.html = BeautifulSoup(self.mock_html_content, 'html.parser')
-        dados = raspagem.converter_dados()
+        dados = raspagem.parser_html()
 
         self.assertIn("Produto", dados)
         self.assertIn("Total", dados)

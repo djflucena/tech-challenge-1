@@ -17,9 +17,9 @@ class ProducaoService:
         """
         try:
             self.producao_raspagem.buscar_html(ano)
-            dados = self.producao_raspagem.converter_dados()
+            dados = self.producao_raspagem.parser_html()
             self.producao_repository.salvar(dados)
         except Exception as e:
-            print(f"Erro ao buscar dados: {e}")
+            raise Exception("Erro ao buscar dados")
         return self.producao_repository.get_por_ano(ano)
 

@@ -31,7 +31,7 @@ class ProducaoRaspagem:
         except TimeoutError:
             raise Exception("Request timed out")
 
-    def converter_dados(self):
+    def parser_html(self):
         data_table = self.html.find('table', class_='tb_base tb_dados')
         table_header_coluna_esquerda = data_table.find('thead').findChildren('th')[0].string.strip()
         table_footer_total_text = data_table.find('tfoot').findChildren('td')[0].string.strip()
