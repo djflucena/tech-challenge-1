@@ -1,18 +1,19 @@
-class MessageRepository:
+class ProducaoRepository:
     """
-    A repository class to handle message-related operations.
+        Repository para Produção de vinhos, sucos e derivados do Rio Grande do Sul.
     """
-
     def __init__(self):
-        pass
-    
-    def get_message_by_id(self, message_id: int):
+        self.dados = None
+
+    def get_por_ano(self, ano: int):
         """
-        Simulate a database call to get a message by its ID.
+            Retorna a produção de vinhos, sucos e derivados do Rio Grande do Sul por ano.
         """
-        messages = {
-            1: "Hello, World!",
-            2: "Goodbye, World!",
-            3: "Hello, Universe!"
-        }
-        return messages.get(message_id, "Message not found")
+        return self.dados
+        
+    def salvar(self, dados):
+        """
+            Salva os dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
+        """
+        # Implementar lógica de salvamento no banco de dados ou outro armazenamento
+        self.dados = dados

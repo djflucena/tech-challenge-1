@@ -1,9 +1,21 @@
-from .config import app
-from .services import MessageService
+from typing import Annotated
+from fastapi import Query
 
-@app.get("/{message_id}")
-async def home(message_id: int):
+from src.config import app
+from src.services import ProducaoService
+from src.filter_params import AnoFilterParams
+
+URL_BASE = "/vitivinicultura/api/v1"
+
+@app.get(URL_BASE+"/producao")
+async def producao(
+    ano: Annotated[
+        AnoFilterParams, 
+        Query(description="""Ano de produção dos vinhos, 
+              sucos e derivados do Rio Grande do Sul.""")
+        ]):
     """
-    A simple home endpoint that returns a message by its ID.
+        Endpoint para retornar a produção de vinhos, 
+        sucos e derivados do Rio Grande do Sul.
     """
-    return MessageService().get_message_by_id(message_id)
+    return ProducaoService().get_por_ano(ano)
