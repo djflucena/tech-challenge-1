@@ -1,19 +1,11 @@
-class ProducaoRepository:
-    """
-        Repository para Produção de vinhos, sucos e derivados do Rio Grande do Sul.
-    """
-    def __init__(self):
-        self.dados = None
+from src.config import BANCO_DE_DADOS
 
+class ProducaoRepository:
     def get_por_ano(self, ano: int):
-        """
-            Retorna a produção de vinhos, sucos e derivados do Rio Grande do Sul por ano.
-        """
-        return self.dados
+        try:
+            return BANCO_DE_DADOS[ano]
+        except KeyError:
+            raise Exception(f"Dados não encontrados para o ano {ano}")
         
-    def salvar(self, dados):
-        """
-            Salva os dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
-        """
-        # Implementar lógica de salvamento no banco de dados ou outro armazenamento
-        self.dados = dados
+    def salvar_ou_atualizar(self, dados, ano):
+        BANCO_DE_DADOS[ano] = dados

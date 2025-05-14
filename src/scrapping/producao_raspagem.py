@@ -23,7 +23,7 @@ class ProducaoRaspagem:
             :param ano: Ano para o qual os dados devem ser buscados.
         """
         try:
-            response = requests.get(f"{self.url}?ano={ano}", timeout=100)
+            response = requests.get(f"{self.url}&{ano}", timeout=100)
             if response.status_code == 200:
                 self.html = BeautifulSoup(response.text, 'html.parser')
             else:

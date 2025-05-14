@@ -18,7 +18,7 @@ class ProducaoService:
         try:
             self.producao_raspagem.buscar_html(ano)
             dados = self.producao_raspagem.parser_html()
-            self.producao_repository.salvar(dados)
+            self.producao_repository.salvar_ou_atualizar(dados, ano)
         except Exception as e:
             raise Exception("Erro ao buscar dados")
         return self.producao_repository.get_por_ano(ano)
