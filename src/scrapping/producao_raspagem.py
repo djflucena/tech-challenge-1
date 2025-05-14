@@ -32,33 +32,35 @@ class ProducaoRaspagem:
             raise Exception("Request timed out")
 
     def parser_html(self):
-        data_table = self.html.find('table', class_='tb_base tb_dados')
-        table_header_coluna_esquerda = data_table.find('thead').findChildren('th')[0].string.strip()
-        table_footer_total_text = data_table.find('tfoot').findChildren('td')[0].string.strip()
-        total_val = data_table.find('tfoot').findChildren('td')[1].string.strip()
-        table_footer_total_val = float(extrair_numeros(total_val)) if total_val else 0 
-
-        produtos = []
-        id_item_corrente = None
         try:
+            data_table = self.html.find('table', class_='tb_base tb_dados')
+            table_header_coluna_esquerda = data_table.find('thead').findChildren('th')[0].string.strip()
+            table_footer_total_text = data_table.find('tfoot').findChildren('td')[0].string.strip()
+            total_val = data_table.find('tfoot').findChildren('td')[1].string.strip()
+            table_footer_total_val = float(extrair_numeros(total_val)) if total_val else 0 
+
+            produtos = []
+            id_item_corrente = None
+        
             for tr in data_table.find('tbody').find_all('tr'):
                 tds = tr.find_all('td')
                 if tds[0]['class'][0] == "tb_item":
                     item = self.extrair_item(tds)
+                    item["TIPOS"] = []
                     id_item_corrente = list(item.keys())[0]
                     print(id_item_corrente)
                     produtos.append(item)
                 elif tds[0]['class'][0] == "tb_subitem":
-                    subitem = self.extrair_subitem(tds)
+                    subitem = self.extrair_item(tds)
                     item_corrente = self.procurar_item_id(produtos, id_item_corrente)
                     if item_corrente != -1:
                         produtos[item_corrente]["TIPOS"].append(subitem)
                     else:
-                        print(f"Item corrente não encontrado: {id_item_corrente}")
+                        pass
                 else:
                     pass
         except Exception as e:
-            print(f"Erro ao processar a tabela: {e}")
+            raise Exception(f"Erro ao processar o html")
         return {
             table_header_coluna_esquerda: produtos,
             table_footer_total_text: table_footer_total_val,
@@ -68,13 +70,6 @@ class ProducaoRaspagem:
         item = {}
         val = extrair_numeros(tds[1].string.strip())
         item[tds[0].string.strip()] = float(val) if val else 0 
-        item["TIPOS"] = []
-        return item
-
-    def extrair_subitem(self, tds=[]):
-        item = {}
-        val = extrair_numeros(tds[1].string.strip())
-        item[tds[0].string.strip()] = float(val) if val else 0    
         return item
     
     def procurar_item_id(self, produtos, id_item_corrente) -> int:
