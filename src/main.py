@@ -3,7 +3,7 @@ from fastapi import Query
 
 from src.config import app
 from src.services import ProducaoService
-from src.filter_params import AnoFilterParams
+from src.filters.ano_filter_params import AnoFilterParams
 
 URL_BASE = "/vitivinicultura/api/v1"
 
