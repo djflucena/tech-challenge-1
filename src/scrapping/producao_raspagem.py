@@ -45,13 +45,13 @@ class ProducaoRaspagem:
             for tr in data_table.find('tbody').find_all('tr'):
                 tds = tr.find_all('td')
                 if tds[0]['class'][0] == "tb_item":
-                    item = self.extrair_item(tds)
+                    item = self.__extrair_item(tds)
                     item["TIPOS"] = []
                     id_item_corrente = list(item.keys())[0]
                     produtos.append(item)
                 elif tds[0]['class'][0] == "tb_subitem":
-                    subitem = self.extrair_item(tds)
-                    item_corrente = self.procurar_item_id(produtos, id_item_corrente)
+                    subitem = self.__extrair_item(tds)
+                    item_corrente = self.__procurar_item_id(produtos, id_item_corrente)
                     if item_corrente != -1:
                         produtos[item_corrente]["TIPOS"].append(subitem)
         except Exception as e:
@@ -61,13 +61,13 @@ class ProducaoRaspagem:
             table_footer_total_text: table_footer_total_val,
         }
         
-    def extrair_item(self, tds=[]) -> dict:
+    def __extrair_item(self, tds=[]) -> dict:
         item = {}
         val = extrair_numeros(tds[1].string.strip())
         item[tds[0].string.strip()] = float(val) if val else 0 
         return item
     
-    def procurar_item_id(self, produtos, id_item_corrente) -> int:
+    def __procurar_item_id(self, produtos, id_item_corrente) -> int:
         for id, produto in enumerate(produtos):
             if list(produto.keys())[0] == id_item_corrente:
                 return id
