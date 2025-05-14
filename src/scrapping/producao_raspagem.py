@@ -36,8 +36,7 @@ class ProducaoRaspagem:
             data_table = self.html.find('table', class_='tb_base tb_dados')
             table_header_coluna_esquerda = data_table.find('thead').findChildren('th')[0].string.strip()
             table_footer_total_text = data_table.find('tfoot').findChildren('td')[0].string.strip()
-            total_val = data_table.find('tfoot').findChildren('td')[1].string.strip()
-            table_footer_total_val = float(extrair_numeros(total_val)) if total_val else 0 
+            table_footer_total_val = extrair_numeros(data_table.find('tfoot').findChildren('td')[1].string.strip())
 
             produtos = []
             id_item_corrente = None
@@ -63,8 +62,7 @@ class ProducaoRaspagem:
         
     def __extrair_item(self, tds=[]) -> dict:
         item = {}
-        val = extrair_numeros(tds[1].string.strip())
-        item[tds[0].string.strip()] = float(val) if val else 0 
+        item[tds[0].string.strip()] = extrair_numeros(tds[1].string.strip())
         return item
     
     def __procurar_item_id(self, produtos, id_item_corrente) -> int:

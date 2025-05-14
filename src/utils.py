@@ -1,6 +1,6 @@
 import re
 
-def extrair_numeros(input_string) -> str:
+def extrair_numeros(input_string) -> float:
     """
     Extracts and returns only the numbers from the given string.
 
@@ -10,4 +10,5 @@ def extrair_numeros(input_string) -> str:
     Returns:
         str: A string containing only the numbers from the input.
     """
-    return re.sub(r'\D', '', input_string)
+    val = re.sub(r'\D', '', input_string)
+    return float(val) if val else 0 
