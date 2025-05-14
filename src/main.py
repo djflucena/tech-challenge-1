@@ -1,9 +1,8 @@
-from .config import app
-from .services import MessageService
+from src.config import app
+from src.services import ProducaoService
 
-@app.get("/{message_id}")
-async def home(message_id: int):
-    """
-    A simple home endpoint that returns a message by its ID.
-    """
-    return MessageService().get_message_by_id(message_id)
+URL_BASE = "/vitivinicultura/api/v1"
+
+@app.get(URL_BASE+"/producao")
+async def producao(ano: int):
+    return ProducaoService().get_por_ano(ano)
