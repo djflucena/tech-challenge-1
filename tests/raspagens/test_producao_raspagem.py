@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from src.raspagem_service import ProducaoRaspagem
+from src.scrapping.producao_raspagem import ProducaoRaspagem
 from pathlib import Path
 
 class TestProducaoRaspagem(unittest.TestCase):

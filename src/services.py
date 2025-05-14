@@ -1,4 +1,4 @@
-from src.raspagem_service import ProducaoRaspagem
+from src.scrapping.producao_raspagem import ProducaoRaspagem
 from src.repositories import ProducaoRepository
 
 class ProducaoService:
