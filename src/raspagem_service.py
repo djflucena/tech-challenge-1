@@ -1,17 +1,26 @@
 from bs4 import BeautifulSoup
 import requests
 
-class RaspagemService:
-    def __init__(self, url):
-        self.url = url
+class ProducaoRaspagem:
+    """
+        Classe responsável por realizar a raspagem de dados 
+        da produção de vinhos, sucos e derivados do Rio Grande do Sul.
+    """
+    def __init__(self):
+        """
+            Inicializa a classe ProducaoRaspagem.
+            Define a URL base para a raspagem de dados.
+        """
+        self.url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02"
         self.html = None
 
     def buscar_html(self, ano: int) -> None:
         """
-            Busca a página HTML e armazena no atributo html.
-            :param ano: Ano para o qual o html deve ser buscado.
+            Busca o HTML da página de produção de vinhos, 
+            sucos e derivados do Rio Grande do Sul.
+            :param ano: Ano para o qual os dados devem ser buscados.
         """
-        response = requests.get(f"{self.url}?ano={ano}")
+        response = requests.get(f"{self.url}?ano={ano}", timeout=100)
         if response.status_code == 200:
             self.html = BeautifulSoup(response.text, 'html.parser')
         else:
