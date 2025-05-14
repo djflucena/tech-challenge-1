@@ -22,11 +22,14 @@ class ProducaoRaspagem:
             sucos e derivados do Rio Grande do Sul.
             :param ano: Ano para o qual os dados devem ser buscados.
         """
-        response = requests.get(f"{self.url}?ano={ano}", timeout=100)
-        if response.status_code == 200:
-            self.html = BeautifulSoup(response.text, 'html.parser')
-        else:
-            raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
+        try:
+            response = requests.get(f"{self.url}?ano={ano}", timeout=100)
+            if response.status_code == 200:
+                self.html = BeautifulSoup(response.text, 'html.parser')
+            else:
+                raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
+        except TimeoutError:
+            raise Exception("Request timed out")
 
     def converter_dados(self):
         data_table = self.html.find('table', class_='tb_base tb_dados')

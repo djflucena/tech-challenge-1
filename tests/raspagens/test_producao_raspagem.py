@@ -1,7 +1,9 @@
 import unittest
+from requests.exceptions import Timeout
 from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
+from requests import HTTPError
 
 from src.scrapping.producao_raspagem import ProducaoRaspagem
 from pathlib import Path
@@ -48,6 +50,14 @@ class TestProducaoRaspagem(unittest.TestCase):
                 raspagem.buscar_html(1970)
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Failed to fetch HTML. Status code: 500")
+    
+    def test_buscar_html_request_timeout(self):
+        with patch("requests.get", side_effect=Timeout):
+            with self.assertRaises(Exception) as context:
+                raspagem = ProducaoRaspagem()
+                raspagem.buscar_html(1970)
+                self.assertIsNone(raspagem.html)
+                self.assertEqual(context.msg, "Request timed out")
 
     def test_converter_dados(self):
         raspagem = ProducaoRaspagem()
