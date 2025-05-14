@@ -59,7 +59,7 @@ class TestProducaoRaspagem(unittest.TestCase):
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Request timed out")
 
-    def test_parser_html(self):
+    def test_parser_html_sucesso(self):
         raspagem = ProducaoRaspagem()
         raspagem.html = BeautifulSoup(self.mock_html_content, 'html.parser')
         dados = raspagem.parser_html()
@@ -71,8 +71,18 @@ class TestProducaoRaspagem(unittest.TestCase):
         self.assertIn("VINHO DE MESA", dados["Produto"][0])
         self.assertIn("VINHO FINO DE MESA (VINIFERA)", dados["Produto"][1])
         self.assertIn("SUCO", dados["Produto"][2])
-        self.assertIn("DERIVADOS)", dados["Produto"][3])
+        self.assertIn("DERIVADOS", dados["Produto"][3])
         self.assertEqual(dados["Produto"][0]["VINHO DE MESA"], 217208604)
         self.assertEqual(dados["Produto"][1]["VINHO FINO DE MESA (VINIFERA)"], 23899346)
         self.assertEqual(dados["Produto"][2]["SUCO"], 1097771)
         self.assertEqual(dados["Produto"][3]["DERIVADOS"], 14164329)
+
+        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3) # VINHO DE MESA
+        self.assertEqual(len(dados["Produto"][1]["TIPOS"]), 3) # VINHO FINO DE MESA (VINIFERA)
+        self.assertEqual(len(dados["Produto"][2]["TIPOS"]), 5) # SUCO
+        self.assertEqual(len(dados["Produto"][3]["TIPOS"]), 36) # DERIVADOS
+
+        self.assertEqual(list(dados["Produto"][0]["TIPOS"][0].values())[0], 174224052.0) # VINHO DE MESA - Tinto
+        self.assertEqual(list(dados["Produto"][1]["TIPOS"][0].values())[0], 7591557.0) # VINHO FINO DE MESA (VINIFERA) - Tinto
+        self.assertEqual(list(dados["Produto"][2]["TIPOS"][1].values())[0], 0) # SUCO - Suco de uva concentrado
+        self.assertEqual(list(dados["Produto"][3]["TIPOS"][0].values())[0], 0) # DERIVADOS - Espumante
