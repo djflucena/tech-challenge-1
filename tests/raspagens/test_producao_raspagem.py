@@ -14,7 +14,7 @@ class TestProducaoRaspagem(unittest.TestCase):
             self.mock_html_content = file.read()
         return super().setUp()
 
-    def test_buscar_html(self):
+    def test_buscar_html_sucesso(self):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = self.mock_html_content
