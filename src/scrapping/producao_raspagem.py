@@ -7,8 +7,8 @@ class ProducaoRaspagem(VitiviniculturaRaspagem):
         da produção de vinhos, sucos e derivados do Rio Grande do Sul.
     """
     def __init__(self, ano: int):
+        super().__init__()
         self.ano = ano
-        self.html = None
         self.construir_url()
 
     def construir_url(self) -> str:

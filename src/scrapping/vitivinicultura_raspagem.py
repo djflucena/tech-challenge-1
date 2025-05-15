@@ -6,8 +6,8 @@ import requests
 
 class VitiviniculturaRaspagem(ABC):
     
-    def __init__(self, url):
-        self.url = url
+    def __init__(self):
+        self.url = None
         self.html = None
 
     @abstractmethod
