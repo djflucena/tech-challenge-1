@@ -22,3 +22,17 @@ async def producao(
         return ProducaoService().get_por_ano(ano_filter.ano)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+@app.get(URL_BASE+"/importacao")
+async def importacao(
+    ano_filter: Annotated[
+        AnoFilterParams, 
+        Query(description="""Ano de produção dos vinhos e tipos de vinhos""")
+        ]):
+    """
+        Endpoint para retornar dados de importação de derivados de uva.
+    """
+    try:
+        return ProducaoService().get_por_ano(ano_filter.ano)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
