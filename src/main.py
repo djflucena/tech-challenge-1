@@ -1,15 +1,15 @@
 from typing import Annotated
 from fastapi import Query
+from fastapi import HTTPException
 
 from src.config import app
-from src.services import ProducaoService
-from src.filter_params import AnoFilterParams
-
-URL_BASE = "/vitivinicultura/api/v1"
+from src.config import URL_BASE
+from src.services.producao_services import ProducaoService
+from src.filters.ano_filter_params import AnoFilterParams
 
 @app.get(URL_BASE+"/producao")
 async def producao(
-    ano: Annotated[
+    ano_filter: Annotated[
         AnoFilterParams, 
         Query(description="""Ano de produção dos vinhos, 
               sucos e derivados do Rio Grande do Sul.""")
@@ -18,4 +18,7 @@ async def producao(
         Endpoint para retornar a produção de vinhos, 
         sucos e derivados do Rio Grande do Sul.
     """
-    return ProducaoService().get_por_ano(ano)
+    try:
+        return ProducaoService().get_por_ano(ano_filter.ano)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
