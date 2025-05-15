@@ -12,4 +12,4 @@ class ProducaoRaspagem(VitiviniculturaRaspagem):
         self.construir_url()
 
     def construir_url(self) -> str:
-        self.url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02&ano={self.ano}"
+        self.url = self.url + f"?opcao=opt_02&ano={self.ano}"
