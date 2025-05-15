@@ -4,10 +4,12 @@ from src.utils import extrair_numeros
 from bs4 import BeautifulSoup
 import requests
 
+from src.config import URL_SITE_EMBRAPA
+
 class VitiviniculturaRaspagem(ABC):
     
     def __init__(self):
-        self.url = None
+        self.url = URL_SITE_EMBRAPA
         self.html = None
 
     @abstractmethod
