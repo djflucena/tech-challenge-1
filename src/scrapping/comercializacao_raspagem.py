@@ -11,5 +11,5 @@ class ComercializacoRaspagem(VitiviniculturaRaspagem):
         self.ano = ano
         self.construir_url()
 
-    def construir_url(self) -> str:
+    def construir_url(self):
         self.url = self.url + f"?opcao=opt_04&ano={self.ano}"
