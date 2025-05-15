@@ -6,6 +6,7 @@ from src.config import app
 from src.config import URL_BASE
 from src.services.importacao_service import ImportacaoService
 from src.services.producao_services import ProducaoService
+from src.services.comercializacao_services import ComercializacaoService
 from src.filters.ano_filter_params import AnoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
 
@@ -22,6 +23,22 @@ async def producao(
     """
     try:
         return ProducaoService().get_por_ano(ano_filter.ano)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+@app.get(URL_BASE+"/comercializacao")
+async def comercializacao(
+    ano_filter: Annotated[
+        AnoFilterParams, 
+        Query(description="""Ano de comercialização dos vinhos, 
+              sucos e derivados do Rio Grande do Sul.""")
+        ]):
+    """
+        Endpoint para retornar a comercialização de vinhos, 
+        sucos e derivados do Rio Grande do Sul.
+    """
+    try:
+        return ComercializacaoService().get_por_ano(ano_filter.ano)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
