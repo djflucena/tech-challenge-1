@@ -8,7 +8,6 @@ class ProducaoService:
     """
     def __init__(self):
         self.producao_repository = ProducaoRepository()
-        self.producao_raspagem = ProducaoRaspagem()
 
     def get_por_ano(self, ano: int):
         """
@@ -16,8 +15,10 @@ class ProducaoService:
             do Rio Grande do Sul por ano.
         """
         try:
-            self.producao_raspagem.buscar_html(ano)
-            dados = self.producao_raspagem.parser_html()
+            producao_raspagem = ProducaoRaspagem(ano)
+            producao_raspagem.buscar_html()
+            dados = producao_raspagem.parser_html()
+            
             self.producao_repository.salvar_ou_atualizar(dados, ano)
         except Exception as e:
             print("Erro ao buscar dados")
