@@ -54,7 +54,7 @@ class ComercioExteriorRaspagemAbstract(ABC):
                 pais["valor_us"] = extrair_numeros(tds[2].string.strip())  # type: ignore
                 paises.append(pais)
         except Exception as e:
-            raise Exception(f"Erro ao processar o html: {e}")
+            raise Exception(f"Erro ao processar o html: {e}") from e
         return {
             "paises": paises,
             "total": {"quantidade": rodape_quantidade, "valor": rodape_valor},
