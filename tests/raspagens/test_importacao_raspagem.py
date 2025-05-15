@@ -63,25 +63,17 @@ class TestImportacaoRaspagem(unittest.TestCase):
         raspagem.html = BeautifulSoup(self.mock_html_content, 'html.parser')
         dados = raspagem.parser_html()
 
-        self.assertIn("Produto", dados)
-        self.assertIn("Total", dados)
-        self.assertEqual(dados["Total"], 256370050)
-        self.assertEqual(len(dados["Produto"]), 4)
-        self.assertIn("VINHO DE MESA", dados["Produto"][0])
-        self.assertIn("VINHO FINO DE MESA (VINIFERA)", dados["Produto"][1])
-        self.assertIn("SUCO", dados["Produto"][2])
-        self.assertIn("DERIVADOS", dados["Produto"][3])
-        self.assertEqual(dados["Produto"][0]["VINHO DE MESA"], 217208604)
-        self.assertEqual(dados["Produto"][1]["VINHO FINO DE MESA (VINIFERA)"], 23899346)
-        self.assertEqual(dados["Produto"][2]["SUCO"], 1097771)
-        self.assertEqual(dados["Produto"][3]["DERIVADOS"], 14164329)
-
-        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3) # VINHO DE MESA
-        self.assertEqual(len(dados["Produto"][1]["TIPOS"]), 3) # VINHO FINO DE MESA (VINIFERA)
-        self.assertEqual(len(dados["Produto"][2]["TIPOS"]), 5) # SUCO
-        self.assertEqual(len(dados["Produto"][3]["TIPOS"]), 36) # DERIVADOS
-
-        self.assertEqual(list(dados["Produto"][0]["TIPOS"][0].values())[0], 174224052.0) # VINHO DE MESA - Tinto
-        self.assertEqual(list(dados["Produto"][1]["TIPOS"][0].values())[0], 7591557.0) # VINHO FINO DE MESA (VINIFERA) - Tinto
-        self.assertEqual(list(dados["Produto"][2]["TIPOS"][1].values())[0], 0) # SUCO - Suco de uva concentrado
-        self.assertEqual(list(dados["Produto"][3]["TIPOS"][0].values())[0], 0) # DERIVADOS - Espumante
+        self.assertIn("paises", dados)
+        self.assertIn("total", dados)
+        self.assertEqual(dados["total"]["quantidade"], 1444578)
+        self.assertEqual(dados["total"]["valor"], 8838886)
+        self.assertEqual(len(dados["produto"]), 69)
+        self.assertEqual(dados["produto"][0]["pais"], "Africa do Sul")
+        self.assertEqual(dados["produto"][0]["quantidade_kg"], 0)
+        self.assertEqual(dados["produto"][0]["valor_us"], 0)
+        self.assertEqual(dados["produto"][1]["pais"], "Alemanha")
+        self.assertEqual(dados["produto"][1]["quantidade_kg"], 52297)
+        self.assertEqual(dados["produto"][1]["valor_us"],30498)
+        self.assertEqual(dados["produto"][68]["pais"], "Outros")
+        self.assertEqual(dados["produto"][68]["quantidade_kg"], 5508)
+        self.assertEqual(dados["produto"][68]["valor_us"],4255)
