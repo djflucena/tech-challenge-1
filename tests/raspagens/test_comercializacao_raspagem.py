@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 from bs4 import BeautifulSoup
 from requests import HTTPError
 
-from src.scrapping.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
 from pathlib import Path
 
 class TestComercializacoRaspagem(unittest.TestCase):

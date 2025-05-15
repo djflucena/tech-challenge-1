@@ -1,5 +1,5 @@
 
-from src.scrapping.vitivinicultura_raspagem import VitiviniculturaRaspagem
+from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 
 class ProducaoRaspagem(VitiviniculturaRaspagem):
     """
