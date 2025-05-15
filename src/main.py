@@ -6,6 +6,7 @@ from src.config import app
 from src.config import URL_BASE
 from src.services.producao_services import ProducaoService
 from src.filters.ano_filter_params import AnoFilterParams
+from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
 
 @app.get(URL_BASE+"/producao")
 async def producao(
@@ -26,7 +27,7 @@ async def producao(
 @app.get(URL_BASE+"/importacao")
 async def importacao(
     ano_filter: Annotated[
-        AnoFilterParams, 
+        AnoSubopcaoImportacaoFilterParams, 
         Query(description="""Ano de produção dos vinhos e tipos de vinhos""")
         ]):
     """
