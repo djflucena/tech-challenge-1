@@ -1,16 +1,14 @@
+from src.repositories.importacao_repository import ImportacaoRepository
+
 class ImportacaoService:
+
+    def __init__(self):
+        self.importacao_repository = ImportacaoRepository()
     
     def get_opcao_por_ano(self, ano: int, subopcao: str):
-        return {
-                "produtos": [
-                {
-                    "pais": "Alemanha",
-                    "quantidade_kg": 52297,
-                    "valor_us": 30498
-                },
-                ],
-                "total": {
-                    "quantidade": 1444578,
-                    "valor": 883886
-                }
-            }
+        try:
+            pass
+            # importacao_raspagem = ImportacaoRaspagem(ano)
+        except Exception as e:
+            print("Erro ao buscar dados")
+        return self.importacao_repository.get_opcao_por_ano(ano, subopcao)
