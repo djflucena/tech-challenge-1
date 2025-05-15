@@ -9,10 +9,4 @@ class ImportacaoRaspagem(ComercioExteriorRaspagemAbstract):
         self.html = None
 
     def construir_url(self):
-        pass
-
-    def buscar_html(self) -> None:
-        pass
-
-    def parser_html(self) -> dict:
-        return {}
+        self.url = self.url + f"?ano={self.ano}&opcao=opt_05&subopcao={self.subopcao}"
