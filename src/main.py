@@ -4,6 +4,7 @@ from fastapi import HTTPException
 
 from src.config import app
 from src.config import URL_BASE
+from src.services.importacao_service import ImportacaoService
 from src.services.producao_services import ProducaoService
 from src.filters.ano_filter_params import AnoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
@@ -26,7 +27,7 @@ async def producao(
 
 @app.get(URL_BASE+"/importacao")
 async def importacao(
-    ano_filter: Annotated[
+    ano_subopcao_filter: Annotated[
         AnoSubopcaoImportacaoFilterParams, 
         Query(description="""Ano de produção dos vinhos e tipos de vinhos""")
         ]):
@@ -34,6 +35,8 @@ async def importacao(
         Endpoint para retornar dados de importação de derivados de uva.
     """
     try:
-        return ProducaoService().get_por_ano(ano_filter.ano)
+        return ImportacaoService().get_opcao_por_ano(
+            ano_subopcao_filter.ano,
+            ano_subopcao_filter.subopcao)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
