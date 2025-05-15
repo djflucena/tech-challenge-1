@@ -1,16 +1,14 @@
+from src.config import BANCO_DE_DADOS
+
+
 class ImportacaoRepository:
 
     def get_opcao_por_ano(self, ano: int, subopcao: str):
-        return {
-            "produtos": [
-                {
-                    "pais": "Alemanha",
-                    "quantidade_kg": 52297,
-                    "valor_us": 30498
-                },
-            ],
-            "total": {
-                "quantidade": 1444578,
-                "valor": 883886
-            }
-        }
+        return BANCO_DE_DADOS[ano][subopcao]
+
+    def salvar_ou_atualizar(self, dados, ano, subopcao):
+        if ano not in BANCO_DE_DADOS:
+            BANCO_DE_DADOS[ano] = {}
+        if subopcao not in BANCO_DE_DADOS[ano]:
+            BANCO_DE_DADOS[ano][subopcao] = {}
+        BANCO_DE_DADOS[ano][subopcao] = dados

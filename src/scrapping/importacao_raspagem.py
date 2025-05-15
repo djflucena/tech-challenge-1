@@ -6,7 +6,7 @@ class ImportacaoRaspagem(ComercioExteriorRaspagemAbstract):
         super().__init__()
         self.ano = ano
         self.subopcao = subopcao
-        self.html = None
+        self.construir_url()
 
     def construir_url(self):
         self.url = self.url + f"?ano={self.ano}&opcao=opt_05&subopcao={self.subopcao}"
