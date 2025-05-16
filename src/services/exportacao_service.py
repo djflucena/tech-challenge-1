@@ -11,7 +11,7 @@ class ExportacaoService:
     def __init__(self):
         self.exportacao_repository = ExportacaoRepository()
 
-    def get_opcao_por_ano(self, ano: int, subopcao: str):
+    def get_por_ano(self, ano: int, subopcao: str):
         """Retorna a exportação de vinhos, sucos e derivados"""
         try:
             exportacao_raspagem = ExportacaoRaspagem(ano, subopcao)
@@ -20,4 +20,4 @@ class ExportacaoService:
             self.exportacao_repository.salvar_ou_atualizar(dados, ano, subopcao)
         except Exception:
             print("Erro ao buscar dados")
-        return self.exportacao_repository.get_opcao_por_ano(ano, subopcao)
+        return self.exportacao_repository.get_por_ano(ano, subopcao)

@@ -7,9 +7,12 @@ from fastapi import HTTPException
 from src.config import app
 from src.config import URL_BASE
 from src.services.importacao_service import ImportacaoService
+from src.services.exportacao_service import ExportacaoService
 from src.services.producao_services import ProducaoService
 from src.services.comercializacao_services import ComercializacaoService
+from src.services.processamento_service import ProcessamentoService
 from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
+from src.filters.ano_subopcao_param import AnoSubopcaoProcessamentoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
 
@@ -53,6 +56,25 @@ async def comercializacao(
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e)) from e
 
+@app.get(URL_BASE + "/processamento")
+async def processamento(
+    params: Annotated[
+        AnoSubopcaoProcessamentoFilterParams,
+        Query(
+            description="""Endpoint para retornar os dados de 
+            processamento de uvas viníferas, americanas, de mesa 
+            e sem classificação no Rio Grande do Sul."""
+        ),
+    ],
+):
+    """
+    Endpoint para retornar os dados de processamento de uvas viníferas, 
+    americanas, de mesa e sem classificação no Rio Grande do Sul.
+    """
+    try:
+        return ProcessamentoService().get_por_ano(params.ano, params.subopcao)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
 
 @app.get(URL_BASE + "/importacao")
 async def importacao(
@@ -65,7 +87,7 @@ async def importacao(
     Endpoint para retornar dados de importação de derivados de uva.
     """
     try:
-        return ImportacaoService().get_opcao_por_ano(
+        return ImportacaoService().get_por_ano(
             ano_subopcao_filter.ano, ano_subopcao_filter.subopcao
         )
     except Exception as e:
@@ -82,7 +104,7 @@ async def exportacao(
     Endpoint para retornar dados de exportação de derivados de uva.
     """
     try:
-        return ImportacaoService().get_opcao_por_ano(
+        return ExportacaoService().get_por_ano(
             ano_subopcao_filter.ano, ano_subopcao_filter.subopcao
         )
     except Exception as e:
