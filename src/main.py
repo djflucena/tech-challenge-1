@@ -69,3 +69,20 @@ async def importacao(
         )
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e)) from e
+
+@app.get(URL_BASE + "/exportacao")
+async def exportacao(
+    ano_subopcao_filter: Annotated[
+        AnoSubopcaoExportacaoFilterParams,
+        Query(description="""Ano de produção dos vinhos e tipos de vinhos"""),
+    ],
+):
+    """
+    Endpoint para retornar dados de exportação de derivados de uva.
+    """
+    try:
+        return ImportacaoService().get_opcao_por_ano(
+            ano_subopcao_filter.ano, ano_subopcao_filter.subopcao
+        )
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
