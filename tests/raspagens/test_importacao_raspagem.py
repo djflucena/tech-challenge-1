@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from src.scrapping.importacao_raspagem import ImportacaoRaspagem
+from src.raspagem.importacao_raspagem import ImportacaoRaspagem
 from pathlib import Path
 
 class TestImportacaoRaspagem(unittest.TestCase):
