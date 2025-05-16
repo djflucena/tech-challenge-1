@@ -44,3 +44,26 @@ class AnoSubopcaoExportacaoFilterParams(BaseModel):
     """
                         )
     
+
+class AnoSubopcaoProcessamentoFilterParams(BaseModel):
+    """
+    Parâmetros de filtro para o ano e subopção de processamento.
+    """
+    model_config = {"extra": "forbid"}
+
+    ano: int = Field(
+        ge=1970,
+        le=2023,
+        description="""Ano de referência para dados de processamento 
+        de uvas viníferas, americanas, de mesa e sem classificação."""
+    )
+
+    subopcao: Literal["subopt_01", "subopt_02", "subopt_03", "subopt_04"] = Query(
+        ...,
+        description="""
+        subopt_01: Viníferas,
+        subopt_02: Americanas e híbridas,
+        subopt_03: Uvas de mesa,
+        subopt_04: Sem classificação
+        """
+                        )

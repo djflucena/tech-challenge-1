@@ -1,18 +1,11 @@
 """Classe responsável por gerenciar os dados de comercialização"""
-from src.config import BANCO_DE_DADOS
+# src/repositories/comercializacao.py
+from src.repositories.base import BaseRepository
 
-
-class ComercializacaoRepository:
+class ComercializacaoRepository(BaseRepository):
     """
-    Classe responsável por gerenciar os dados de comercialização
+    Classe responsável por gerenciar os dados de comercialização.
     """
-    def get_por_ano(self, ano: int):
-        """Retorna os dados de comercialização para o ano especificado."""
-        try:
-            return BANCO_DE_DADOS[ano]
-        except KeyError as e:
-            raise Exception(f"Dados não encontrados para o ano {ano}") from e
-
-    def salvar_ou_atualizar(self, dados, ano):
-        """Salva ou atualiza os dados no banco de dados."""
-        BANCO_DE_DADOS[ano] = dados
+    def __init__(self):
+        # “comercializacao” é a chave em src/config.py e NÃO exige subopcao
+        super().__init__(categoria="comercializacao", has_subopcao=False)
