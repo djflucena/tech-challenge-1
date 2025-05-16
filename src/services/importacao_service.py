@@ -1,5 +1,5 @@
 from src.repositories.importacao_repository import ImportacaoRepository
-from src.scrapping.importacao_raspagem import ImportacaoRaspagem
+from src.raspagem.importacao_raspagem import ImportacaoRaspagem
 
 class ImportacaoService:
 

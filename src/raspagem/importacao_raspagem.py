@@ -1,4 +1,4 @@
-from src.scrapping.comercio_exterior_raspagem import ComercioExteriorRaspagemAbstract
+from src.raspagem.comercio_exterior_raspagem import ComercioExteriorRaspagemAbstract
 
 class ImportacaoRaspagem(ComercioExteriorRaspagemAbstract):
     
