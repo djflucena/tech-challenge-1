@@ -24,4 +24,23 @@ class AnoSubopcaoImportacaoFilterParams(BaseModel):
     """
                         )
     
+class AnoSubopcaoExportacaoFilterParams(BaseModel):
+    """
+    Parâmetros de filtro para o ano e subopção de importação.
+    """
+    model_config = {"extra": "forbid"}
+    ano: int = Field(
+        ge=1970, le=2023, 
+        description="""Ano de importação dos vinhos, 
+        sucos e derivados do Rio Grande do Sul."""
+        )
+    subopcao: Literal["subopt_01","subopt_02",
+                      "subopt_03","subopt_04"] = Query(
+                                                ..., description="""
+    subopt_01: Vinhos de mesa,
+    subopt_02: Espumantes,
+    subopt_03: Uvas frescas,
+    subopt_04: Sucos de uva
+    """
+                        )
     

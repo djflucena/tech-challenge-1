@@ -11,6 +11,7 @@ from src.services.producao_services import ProducaoService
 from src.services.comercializacao_services import ComercializacaoService
 from src.filters.ano_filter_params import AnoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
+from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
 
 
 @app.get(URL_BASE + "/producao")
