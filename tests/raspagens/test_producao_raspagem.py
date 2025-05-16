@@ -1,22 +1,26 @@
+"""Classe de Teste para a classe ProducaoRaspagem."""
+
 import unittest
-from requests.exceptions import Timeout
 from unittest.mock import Mock, patch
-
-from bs4 import BeautifulSoup
-from requests import HTTPError
-
-from src.scrapping.producao_raspagem import ProducaoRaspagem
 from pathlib import Path
+from requests.exceptions import Timeout
+from bs4 import BeautifulSoup
+from src.scrapping.producao_raspagem import ProducaoRaspagem
+
 
 class TestProducaoRaspagem(unittest.TestCase):
+    """Classe de Teste para a classe ProducaoRaspagem."""
 
     def setUp(self):
-        html_file_path = Path(__file__).parent / "sources" / "ano=1970&opcao=opt_02.html"
+        html_file_path = (
+            Path(__file__).parent / "sources" / "ano=1970&opcao=opt_02.html"
+        )
         with html_file_path.open("r", encoding="utf-8") as file:
             self.mock_html_content = file.read()
         return super().setUp()
 
     def test_buscar_html_sucesso(self):
+        """Testa a busca de HTML com sucesso."""
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = self.mock_html_content
@@ -25,43 +29,49 @@ class TestProducaoRaspagem(unittest.TestCase):
             raspagem = ProducaoRaspagem(1970)
             raspagem.buscar_html()
             self.assertIsNotNone(raspagem.html)
-            self.assertIn("Banco de dados de uva, vinho e derivados", raspagem.html.title.string)
-    
+            self.assertIn(
+                "Banco de dados de uva, vinho e derivados", 
+                raspagem.html.title.string)  # type: ignore
+
     def test_buscar_html_request_404(self):
+        """Testa o tratamento de erro 404 na requisição."""
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.text = self.mock_html_content
 
         with patch("requests.get", return_value=mock_response):
             with self.assertRaises(Exception) as context:
-                raspagem = ProducaoRaspagem()
-                raspagem.buscar_html(1970)
+                raspagem = ProducaoRaspagem(1970)
+                raspagem.buscar_html()
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Failed to fetch HTML. Status code: 404")
-    
+
     def test_buscar_html_request_500(self):
+        """Testa o tratamento de erro 500 na requisição."""
         mock_response = Mock()
         mock_response.status_code = 500
         mock_response.text = self.mock_html_content
 
         with patch("requests.get", return_value=mock_response):
             with self.assertRaises(Exception) as context:
-                raspagem = ProducaoRaspagem()
-                raspagem.buscar_html(1970)
+                raspagem = ProducaoRaspagem(1970)
+                raspagem.buscar_html()
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Failed to fetch HTML. Status code: 500")
-    
+
     def test_buscar_html_request_timeout(self):
+        """Testa o tratamento de erro de timeout na requisição."""
         with patch("requests.get", side_effect=Timeout):
             with self.assertRaises(Exception) as context:
-                raspagem = ProducaoRaspagem()
-                raspagem.buscar_html(1970)
+                raspagem = ProducaoRaspagem(1970)
+                raspagem.buscar_html()
                 self.assertIsNone(raspagem.html)
                 self.assertEqual(context.msg, "Request timed out")
 
     def test_parser_html_sucesso(self):
+        """Testa o parser de HTML com sucesso."""
         raspagem = ProducaoRaspagem(1970)
-        raspagem.html = BeautifulSoup(self.mock_html_content, 'html.parser')
+        raspagem.html = BeautifulSoup(self.mock_html_content, "html.parser")
         dados = raspagem.parser_html()
 
         self.assertIn("Produto", dados)
@@ -77,12 +87,22 @@ class TestProducaoRaspagem(unittest.TestCase):
         self.assertEqual(dados["Produto"][2]["SUCO"], 1097771)
         self.assertEqual(dados["Produto"][3]["DERIVADOS"], 14164329)
 
-        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3) # VINHO DE MESA
-        self.assertEqual(len(dados["Produto"][1]["TIPOS"]), 3) # VINHO FINO DE MESA (VINIFERA)
-        self.assertEqual(len(dados["Produto"][2]["TIPOS"]), 5) # SUCO
-        self.assertEqual(len(dados["Produto"][3]["TIPOS"]), 36) # DERIVADOS
+        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3)  # VINHO DE MESA
+        self.assertEqual(
+            len(dados["Produto"][1]["TIPOS"]), 3
+        )  # VINHO FINO DE MESA (VINIFERA)
+        self.assertEqual(len(dados["Produto"][2]["TIPOS"]), 5)  # SUCO
+        self.assertEqual(len(dados["Produto"][3]["TIPOS"]), 36)  # DERIVADOS
 
-        self.assertEqual(list(dados["Produto"][0]["TIPOS"][0].values())[0], 174224052.0) # VINHO DE MESA - Tinto
-        self.assertEqual(list(dados["Produto"][1]["TIPOS"][0].values())[0], 7591557.0) # VINHO FINO DE MESA (VINIFERA) - Tinto
-        self.assertEqual(list(dados["Produto"][2]["TIPOS"][1].values())[0], 0) # SUCO - Suco de uva concentrado
-        self.assertEqual(list(dados["Produto"][3]["TIPOS"][0].values())[0], 0) # DERIVADOS - Espumante
+        self.assertEqual(
+            list(dados["Produto"][0]["TIPOS"][0].values())[0], 174224052.0
+        )  # VINHO DE MESA - Tinto
+        self.assertEqual(
+            list(dados["Produto"][1]["TIPOS"][0].values())[0], 7591557.0
+        )  # VINHO FINO DE MESA (VINIFERA) - Tinto
+        self.assertEqual(
+            list(dados["Produto"][2]["TIPOS"][1].values())[0], 0
+        )  # SUCO - Suco de uva concentrado
+        self.assertEqual(
+            list(dados["Produto"][3]["TIPOS"][0].values())[0], 0
+        )  # DERIVADOS - Espumante
