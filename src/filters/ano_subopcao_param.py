@@ -9,7 +9,7 @@ class AnoSubopcaoImportacaoFilterParams(BaseModel):
     """
     model_config = {"extra": "forbid"}
     ano: int = Field(
-        ge=1970, le=2023, 
+        ge=1970, le=2024, 
         description="""Ano de importação dos vinhos, 
         sucos e derivados do Rio Grande do Sul."""
         )
@@ -30,7 +30,7 @@ class AnoSubopcaoExportacaoFilterParams(BaseModel):
     """
     model_config = {"extra": "forbid"}
     ano: int = Field(
-        ge=1970, le=2023, 
+        ge=1970, le=2024, 
         description="""Ano de importação dos vinhos, 
         sucos e derivados do Rio Grande do Sul."""
         )

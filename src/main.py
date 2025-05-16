@@ -9,7 +9,7 @@ from src.config import URL_BASE
 from src.services.importacao_service import ImportacaoService
 from src.services.producao_services import ProducaoService
 from src.services.comercializacao_services import ComercializacaoService
-from src.filters.ano_filter_params import AnoFilterParams
+from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
 
@@ -17,7 +17,7 @@ from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
 @app.get(URL_BASE + "/producao")
 async def producao(
     ano_filter: Annotated[
-        AnoFilterParams,
+        AnoVitiviniculturaFilterParams,
         Query(
             description="""Ano de produção dos vinhos, 
               sucos e derivados do Rio Grande do Sul."""
@@ -37,7 +37,7 @@ async def producao(
 @app.get(URL_BASE + "/comercializacao")
 async def comercializacao(
     ano_filter: Annotated[
-        AnoFilterParams,
+        AnoVitiviniculturaFilterParams,
         Query(
             description="""Ano de comercialização dos vinhos, 
               sucos e derivados do Rio Grande do Sul."""
