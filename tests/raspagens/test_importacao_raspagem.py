@@ -4,7 +4,9 @@ from unittest.mock import Mock, patch
 from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
-from src.scrapping.importacao_raspagem import ImportacaoRaspagem
+
+from src.raspagem.importacao_raspagem import ImportacaoRaspagem
+from pathlib import Path
 
 class TestImportacaoRaspagem(unittest.TestCase):
     """Classe de teste para a raspagem de importação."""

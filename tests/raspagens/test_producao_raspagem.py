@@ -5,8 +5,10 @@ from unittest.mock import Mock, patch
 from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
-from src.scrapping.producao_raspagem import ProducaoRaspagem
+from requests import HTTPError
 
+from src.raspagem.producao_raspagem import ProducaoRaspagem
+from pathlib import Path
 
 class TestProducaoRaspagem(unittest.TestCase):
     """Classe de Teste para a classe ProducaoRaspagem."""

@@ -1,4 +1,4 @@
-from src.scrapping.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
 from src.repositories.comercializacao_repository import ComercializacaoRepository
 
 class ComercializacaoService:

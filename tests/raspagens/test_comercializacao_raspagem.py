@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
-from src.scrapping.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
 
 class TestComercializacoRaspagem(unittest.TestCase):
     """Classe de Teste para a classe ComercializacoRaspagem."""

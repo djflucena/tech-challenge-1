@@ -1,6 +1,6 @@
 """Classe para raspagem de dados de Produção de vinhos, sucos e derivados do Rio Grande do Sul."""
 
-from src.scrapping.vitivinicultura_raspagem import VitiviniculturaRaspagem
+from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 
 
 class ProducaoRaspagem(VitiviniculturaRaspagem):
