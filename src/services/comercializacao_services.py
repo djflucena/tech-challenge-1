@@ -1,9 +1,8 @@
 """Service para comercialização de vinhos, sucos e derivados
 do Rio Grande do Sul."""
-
 from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
 from src.repositories.comercializacao_repository import ComercializacaoRepository
-
+from src.repositories.raw_repository import RawRepository
 
 class ComercializacaoService:
     """
@@ -12,6 +11,7 @@ class ComercializacaoService:
     """
 
     def __init__(self):
+        self._repo_raw = RawRepository()
         self.comercializacao_repository = ComercializacaoRepository()
 
     def get_por_ano(self, ano: int):
@@ -24,6 +24,13 @@ class ComercializacaoService:
             comercializacao_raspagem.buscar_html()
             dados = comercializacao_raspagem.parser_html()
 
+            self._repo_raw.upsert(
+                endpoint="comercializacao",
+                ano=ano,
+                subopcao=None,
+                payload=dados
+            )
+            
             self.comercializacao_repository.salvar_ou_atualizar(dados, ano)
         except Exception:
             print("Erro ao buscar dados")

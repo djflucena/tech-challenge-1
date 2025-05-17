@@ -5,6 +5,7 @@ do Rio Grande do Sul.
 
 from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.repositories.producao_repository import ProducaoRepository
+from src.repositories.raw_repository import RawRepository
 
 
 class ProducaoService:
@@ -14,6 +15,7 @@ class ProducaoService:
     """
 
     def __init__(self):
+        self._repo_raw = RawRepository()
         self.producao_repository = ProducaoRepository()
 
     def get_por_ano(self, ano: int):
@@ -25,6 +27,13 @@ class ProducaoService:
             producao_raspagem = ProducaoRaspagem(ano)
             producao_raspagem.buscar_html()
             dados = producao_raspagem.parser_html()
+  
+            self._repo_raw.upsert(
+                endpoint="producao",
+                ano=ano,
+                subopcao=None,
+                payload=dados
+            )
 
             self.producao_repository.salvar_ou_atualizar(dados, ano)
         except Exception:
