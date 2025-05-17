@@ -1,4 +1,4 @@
-"""Classe para raspagem de dados de Produção de vinhos, sucos e derivados do Rio Grande do Sul."""
+"""Classe responsável por realizar a raspagem de dados da produção."""
 
 from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 
