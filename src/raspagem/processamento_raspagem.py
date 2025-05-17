@@ -1,4 +1,4 @@
-"""Classe abstrata para raspagem de dados de comércio exterior: Importação e Exportação."""
+""" Classe responsável por realizar a raspagem de dados da comercialização."""
 
 from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 
