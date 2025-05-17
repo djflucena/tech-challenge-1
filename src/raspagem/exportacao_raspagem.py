@@ -1,4 +1,4 @@
-"""Classe abstrata para raspagem de dados de comércio exterior: Importação e Exportação."""
+"""Classe responsável por realizar a raspagem de dados de exportação."""
 
 from src.raspagem.comercio_exterior_raspagem import ComercioExteriorRaspagemAbstract
 
