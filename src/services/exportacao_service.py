@@ -1,6 +1,5 @@
 """Service para exportação de vinhos, sucos e derivados
     do Rio Grande do Sul."""
-from src.repositories.exportacao_repository import ExportacaoRepository
 from src.raspagem.exportacao_raspagem import ExportacaoRaspagem
 from src.repositories.raw_repository import RawRepository
 
@@ -10,23 +9,34 @@ class ExportacaoService:
 
     def __init__(self):
         self._repo_raw = RawRepository()
-        self.exportacao_repository = ExportacaoRepository()
 
     def get_por_ano(self, ano: int, subopcao: str):
-        """Retorna a exportação de vinhos, sucos e derivados"""
+        """
+        Retorna a exportação de vinhos, sucos e derivados
+        Tenta raspar; em falha, retorna o que estiver salvo.
+        """
         try:
             exportacao_raspagem = ExportacaoRaspagem(ano, subopcao)
             exportacao_raspagem.buscar_html()
             dados = exportacao_raspagem.parser_html()
 
-            self._repo_raw.upsert(
-                endpoint="exportacao",
-                ano=ano,
-                subopcao=subopcao,
-                payload=dados
-            )
+            if dados:
+                self._repo_raw.upsert(
+                    endpoint="exportacao",
+                    ano=ano,
+                    subopcao=subopcao,
+                    payload=dados
+                )
+                return {"source": "site", "data": dados}
             
-            self.exportacao_repository.salvar_ou_atualizar(dados, ano, subopcao)
         except Exception:
-            print("Erro ao buscar dados")
-        return self.exportacao_repository.get_por_ano(ano, subopcao)
+            pass
+        """
+        Fallback: busca no banco
+        """
+        dados_banco = self._repo_raw.get(
+            endpoint="exportacao",
+            ano=ano,
+            subopcao=subopcao
+        )
+        return {"source": "banco", "data": dados_banco}
