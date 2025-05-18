@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from src.utils import extrair_numeros
 from src.config import URL_SITE_EMBRAPA
+from requests.exceptions import Timeout
 
 
 class VitiviniculturaRaspagem(ABC):
@@ -39,7 +40,7 @@ class VitiviniculturaRaspagem(ABC):
                 raise Exception(
                     f"Failed to fetch HTML. Status code: {response.status_code}"
                 )
-        except TimeoutError as e:
+        except Timeout as e:
             raise Exception("Request timed out") from e
 
     def parser_html(self) -> dict:
