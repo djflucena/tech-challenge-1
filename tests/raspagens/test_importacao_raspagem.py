@@ -6,6 +6,7 @@ from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
 
 from src.raspagem.importacao_raspagem import ImportacaoRaspagem
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 
 
 class TestComportamentoImportacaoRaspagem(unittest.TestCase):
@@ -37,7 +38,7 @@ class TestComportamentoImportacaoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=404, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ImportacaoRaspagem(1970, "subopt_01")
                 raspagem.buscar_html()
 
@@ -48,19 +49,17 @@ class TestComportamentoImportacaoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=500, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ImportacaoRaspagem(1970, "subopt_01")
                 raspagem.buscar_html()
 
         self.assertEqual(str(context.exception), "Failed to fetch HTML. Status code: 500")
 
     def test_quando_timeout_entao_excecao_com_mensagem_timeout(self):
-        """Cenário: Timeout na requisição"""
         with patch("requests.get", side_effect=Timeout):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(TimeoutRequisicao) as context:
                 raspagem = ImportacaoRaspagem(1970, "subopt_01")
                 raspagem.buscar_html()
-
         self.assertEqual(str(context.exception), "Request timed out")
 
     def test_quando_parser_executado_entao_dados_de_paises_sao_extraidos(self):

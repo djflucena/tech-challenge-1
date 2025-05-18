@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from requests.exceptions import Timeout
 
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
-
+from src.raspagem.raspagem_exceptions import ErroParser, ErroRequisicao,TimeoutRequisicao
 
 class TestComportamentoProcessamentoRaspagem(unittest.TestCase):
     """Cenários de comportamento da raspagem de processamento."""
@@ -37,7 +37,7 @@ class TestComportamentoProcessamentoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=404, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ProcessamentoRaspagem(2023, "subopt_01")
                 raspagem.buscar_html()
 
@@ -48,7 +48,7 @@ class TestComportamentoProcessamentoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=500, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+           with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ProcessamentoRaspagem(2023, "subopt_01")
                 raspagem.buscar_html()
 
@@ -57,7 +57,7 @@ class TestComportamentoProcessamentoRaspagem(unittest.TestCase):
     def test_quando_timeout_entao_excecao_com_mensagem_timeout(self):
         """Cenário: Timeout na requisição"""
         with patch("requests.get", side_effect=Timeout):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(TimeoutRequisicao) as context:
                 raspagem = ProcessamentoRaspagem(2023, "subopt_01")
                 raspagem.buscar_html()
 

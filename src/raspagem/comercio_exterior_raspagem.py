@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 import requests
 from bs4 import BeautifulSoup
-from src.exceptions.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.utils import extrair_numeros
 from src.config import URL_SITE_EMBRAPA
 

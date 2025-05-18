@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
+from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 
 
@@ -37,7 +38,7 @@ class TestComportamentoProducaoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=404, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ProducaoRaspagem(1970)
                 raspagem.buscar_html()
 
@@ -48,7 +49,7 @@ class TestComportamentoProducaoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=500, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ProducaoRaspagem(1970)
                 raspagem.buscar_html()
 

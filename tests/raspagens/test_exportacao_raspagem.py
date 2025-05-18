@@ -11,6 +11,7 @@ from src.raspagem.exportacao_raspagem import ExportacaoRaspagem
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 
 
+
 class TestComportamentoExportacaoRaspagem(unittest.TestCase):
     """Cenários de comportamento da raspagem de exportação."""
 
