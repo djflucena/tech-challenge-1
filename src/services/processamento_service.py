@@ -1,37 +1,50 @@
-"""Service para processamento de vinhos, sucos e derivados
-    do Rio Grande do Sul."""
+"""
+Service para Processamento de uvas
+do Rio Grande do Sul.
+"""
 
-from src.repositories.processamento_repository import ProcessamentoRepository
+import logging
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
+from src.repositories.processamento_repository import ProcessamentoRepository
 from src.repositories.raw_repository import RawRepository
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+
 
 class ProcessamentoService:
     """
-    Service para processamento de uvas viníferas, americanas,
-    de mesa e sem classificação no Rio Grande do Sul.
+    Service para Processamento de uvas
+do Rio Grande do Sul.
     """
 
     def __init__(self):
         self._repo_raw = RawRepository()
-        self._repo = ProcessamentoRepository()
+        self.processamento_repository = ProcessamentoRepository()
 
-    def get_por_ano(self, ano: int, subopcao: str):
+    def get_por_ano(self, ano: int):
         """
-        Tenta raspar; em falha, retorna o que estiver salvo.
+        Retorna o processamento de uvas do Rio Grande do Sul por ano.
         """
         try:
-            raspagem = ProcessamentoRaspagem(ano, subopcao)
-            raspagem.buscar_html()
-            dados = raspagem.parser_html()
-  
+            processamento_raspagem = ProcessamentoRaspagem(ano, "subopt_01")
+            processamento_raspagem.buscar_html()
+            dados = processamento_raspagem.parser_html()
+
             self._repo_raw.upsert(
                 endpoint="processamento",
                 ano=ano,
-                subopcao=subopcao,
+                subopcao="subopt_01",
                 payload=dados
             )
 
-            self._repo.salvar_ou_atualizar(dados, ano, subopcao)
-        except Exception:
-            print("Erro ao buscar dados")
-        return self._repo.get_por_ano(ano, subopcao)
+            self.processamento_repository.salvar_ou_atualizar(dados, ano)
+
+        except TimeoutRequisicao:
+            logging.warning(f"[PROCESSAMENTO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
+        except ErroRequisicao as e:
+            logging.warning(f"[PROCESSAMENTO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
+        except ErroParser as e:
+            logging.error(f"[PROCESSAMENTO] Falha ao interpretar HTML do ano {ano}: {e}")
+        except Exception as e:
+            logging.exception(f"[PROCESSAMENTO] Erro inesperado ao processar dados de {ano}: {e}")
+
+        return self.processamento_repository.get_por_ano(ano)
