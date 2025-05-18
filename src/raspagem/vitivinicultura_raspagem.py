@@ -4,8 +4,8 @@ Produção, Processamento e Comercialização
 """
 
 from abc import ABC, abstractmethod
-import requests
 from bs4 import BeautifulSoup
+import requests
 from src.utils import extrair_numeros
 from src.config import URL_SITE_EMBRAPA
 from requests.exceptions import Timeout
