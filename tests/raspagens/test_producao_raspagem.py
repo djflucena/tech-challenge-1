@@ -1,11 +1,13 @@
 """Classe de Teste para a classe ProducaoRaspagem."""
 
+from multiprocessing import context
 import unittest
 from unittest.mock import Mock, patch
 from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
-from src.raspagem.producao_raspagem import ProducaoRaspagem
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+
 
 
 class TestComportamentoProducaoRaspagem(unittest.TestCase):
@@ -55,7 +57,7 @@ class TestComportamentoProducaoRaspagem(unittest.TestCase):
     def test_quando_timeout_entao_excecao_com_mensagem_timeout(self):
         """Cenário: Timeout na requisição"""
         with patch("requests.get", side_effect=Timeout):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(TimeoutRequisicao) as context:
                 raspagem = ProducaoRaspagem(1970)
                 raspagem.buscar_html()
 

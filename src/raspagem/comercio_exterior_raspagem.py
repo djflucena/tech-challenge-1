@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 import requests
 from bs4 import BeautifulSoup
-
+from src.exceptions.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.utils import extrair_numeros
 from src.config import URL_SITE_EMBRAPA
 
@@ -29,9 +29,10 @@ class ComercioExteriorRaspagemAbstract(ABC):
             if response.status_code == 200:
                 self.html = BeautifulSoup(response.text, "html.parser")
             else:
-                raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
+                raise ErroRequisicao(response.status_code)
         except requests.Timeout as e:
-            raise Exception("Request timed out") from e
+            raise TimeoutRequisicao() from e
+
 
     def parser_html(self):
         """
@@ -54,7 +55,7 @@ class ComercioExteriorRaspagemAbstract(ABC):
                 pais["valor_us"] = extrair_numeros(tds[2].string.strip())  # type: ignore
                 paises.append(pais)
         except Exception as e:
-            raise Exception(f"Erro ao processar o html: {e}") from e
+            raise ErroParser(f"Erro ao processar o HTML: {e}") from e
         return {
             "paises": paises,
             "total": {"quantidade": rodape_quantidade, "valor": rodape_valor},

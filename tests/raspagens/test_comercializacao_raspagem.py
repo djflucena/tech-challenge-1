@@ -8,6 +8,8 @@ from pathlib import Path
 from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
 from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+
 
 
 class TestComportamentoRaspagem(unittest.TestCase):
@@ -35,33 +37,30 @@ class TestComportamentoRaspagem(unittest.TestCase):
         mock_response = Mock(status_code=404, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ComercializacoRaspagem(2023)
                 raspagem.buscar_html()
-
         self.assertEqual(str(context.exception), "Failed to fetch HTML. Status code: 404")
 
+        
     def test_quando_status_500_entao_excecao_com_mensagem_apropriada(self):
         """Cenário: Erro 500 na requisição"""
         mock_response = Mock(status_code=500, text=self.mock_html_content)
 
         with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(ErroRequisicao) as context:
                 raspagem = ComercializacoRaspagem(2023)
                 raspagem.buscar_html()
-
         self.assertEqual(str(context.exception), "Failed to fetch HTML. Status code: 500")
 
-    def test_quando_timeout_entao_excecao_com_mensagem_apropriada(self):
-        """Cenário: Timeout na requisição"""
+
+    def test_quando_timeout_entao_timeout_requisicao(self):
         with patch("requests.get", side_effect=Timeout):
-            with self.assertRaises(Exception) as context:
+            with self.assertRaises(TimeoutRequisicao) as context:
                 raspagem = ComercializacoRaspagem(2023)
                 raspagem.buscar_html()
-
         self.assertEqual(str(context.exception), "Request timed out")
-
-
+    
     def test_quando_parser_executado_em_html_valido_entao_dados_extraidos_corretamente(self):
         """Cenário: Parser bem-sucedido extrai os dados corretamente"""
         raspagem = ComercializacoRaspagem(2023)
