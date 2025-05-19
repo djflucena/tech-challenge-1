@@ -5,7 +5,6 @@ do Rio Grande do Sul.
 
 import logging
 from src.raspagem.producao_raspagem import ProducaoRaspagem
-from src.repositories.producao_repository import ProducaoRepository
 from src.repositories.raw_repository import RawRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.config.logging_config import configurar_logging
@@ -21,7 +20,6 @@ do Rio Grande do Sul.
 
     def __init__(self):
         self._repo_raw = RawRepository()
-        self.producao_repository = ProducaoRepository()
 
     def get_por_ano(self, ano: int):
         """

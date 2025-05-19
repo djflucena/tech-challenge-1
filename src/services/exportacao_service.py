@@ -21,7 +21,6 @@ do Brasil.
 
     def __init__(self):
         self._repo_raw = RawRepository()
-        self.exportacao_repository = ExportacaoRepository()
 
     def get_por_ano(self, ano: int):
         """
