@@ -18,7 +18,7 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
-def upgrade():
+def upgrade() -> None:
     # Garante que o schema existe
     op.execute("create schema if not exists vitivinicultura;")
 
@@ -355,7 +355,7 @@ def upgrade():
         pais;
     """)
 
-def downgrade():
+def downgrade() -> None:
     # Remove views
     op.execute("drop view if exists vitivinicultura.exportacao")
     op.execute("drop view if exists vitivinicultura.importacao")
