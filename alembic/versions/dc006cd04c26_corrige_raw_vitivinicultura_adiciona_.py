@@ -34,6 +34,13 @@ def upgrade():
         schema='vitivinicultura'
     )
 
+    ## Converte payload de JSON para JSONB
+    op.execute("""
+    alter table vitivinicultura.raw_vitivinicultura
+      alter column payload type jsonb
+      using payload::jsonb;
+    """)
+
     # Índice GIN sobre payload
     op.create_index(
         'idx_raw_vitivinicultura_data_gin',
@@ -55,6 +62,13 @@ def upgrade():
         sa.Column('operation',   sa.CHAR(length=1), nullable=False),
         schema='vitivinicultura'
     )
+
+    ## Converte payload de JSON para JSONB
+    op.execute("""
+    alter table vitivinicultura.raw_vitivinicultura_history
+      alter column payload type jsonb
+      using payload::jsonb;
+    """)
 
     # Função de trigger para gravar histórico
     op.execute("""
@@ -208,8 +222,7 @@ def upgrade():
     where
         r.endpoint = 'comercializacao'
     order by
-        r.ano,docker-compose down --rmi local -v
-
+        r.ano,
         kv.control,
         kv.is_subitem,
         kv.key;
