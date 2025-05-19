@@ -8,7 +8,10 @@ from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.repositories.producao_repository import ProducaoRepository
 from src.repositories.raw_repository import RawRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.config.logging_config import configurar_logging
 
+
+logger = logging.getLogger(__name__)
 
 class ProducaoService:
     """
@@ -40,12 +43,12 @@ do Rio Grande do Sul por ano.
             self.producao_repository.salvar_ou_atualizar(dados, ano)
 
         except TimeoutRequisicao:
-            logging.warning(f"[PRODUCAO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
+            logger.warning(f"[PRODUCAO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
         except ErroRequisicao as e:
-            logging.warning(f"[PRODUCAO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
+            logger.warning(f"[PRODUCAO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
         except ErroParser as e:
-            logging.error(f"[PRODUCAO] Falha ao interpretar HTML do ano {ano}: {e}")
+            logger.error(f"[PRODUCAO] Falha ao interpretar HTML do ano {ano}: {e}")
         except Exception as e:
-            logging.exception(f"[PRODUCAO] Erro inesperado ao processar dados de {ano}: {e}")
+            logger.exception(f"[PRODUCAO] Erro inesperado ao processar dados de {ano}: {e}")
 
         return self.producao_repository.get_por_ano(ano)

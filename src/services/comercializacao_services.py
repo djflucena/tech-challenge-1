@@ -8,6 +8,9 @@ from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
 from src.repositories.comercializacao_repository import ComercializacaoRepository
 from src.repositories.raw_repository import RawRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.config.logging_config import configurar_logging
+
+logger = logging.getLogger(__name__)
 
 
 class ComercializacaoService:
@@ -40,12 +43,12 @@ do Rio Grande do Sul por ano.
             self.comercializacao_repository.salvar_ou_atualizar(dados, ano)
 
         except TimeoutRequisicao:
-            logging.warning(f"[COMERCIALIZACAO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
+            logger.warning(f"[COMERCIALIZACAO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
         except ErroRequisicao as e:
-            logging.warning(f"[COMERCIALIZACAO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
+            logger.warning(f"[COMERCIALIZACAO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
         except ErroParser as e:
-            logging.error(f"[COMERCIALIZACAO] Falha ao interpretar HTML do ano {ano}: {e}")
+            logger.error(f"[COMERCIALIZACAO] Falha ao interpretar HTML do ano {ano}: {e}")
         except Exception as e:
-            logging.exception(f"[COMERCIALIZACAO] Erro inesperado ao processar dados de {ano}: {e}")
+            logger.exception(f"[COMERCIALIZACAO] Erro inesperado ao processar dados de {ano}: {e}")
 
         return self.comercializacao_repository.get_por_ano(ano)
