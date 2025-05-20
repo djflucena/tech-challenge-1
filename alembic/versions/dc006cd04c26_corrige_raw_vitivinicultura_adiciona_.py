@@ -22,35 +22,6 @@ def upgrade() -> None:
     # Garante que o schema existe
     op.execute("create schema if not exists vitivinicultura;")
 
-    # Cria tabela principal
-    op.create_table(
-        'raw_vitivinicultura',
-        sa.Column('endpoint',    sa.Text,      nullable=False),
-        sa.Column('ano',         sa.Integer,   nullable=False),
-        sa.Column('subopcao',    sa.Text,      nullable=True),
-        sa.Column('fetched_at',  sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()')),
-        sa.Column('payload',     sa.JSON,      nullable=False),
-        sa.PrimaryKeyConstraint('endpoint', 'ano', 'subopcao'),
-        schema='vitivinicultura'
-    )
-
-    ## Converte payload de JSON para JSONB
-    op.execute("""
-    alter table vitivinicultura.raw_vitivinicultura
-      alter column payload type jsonb
-      using payload::jsonb;
-    """)
-
-    # Índice GIN sobre payload
-    op.create_index(
-        'idx_raw_vitivinicultura_data_gin',
-        'raw_vitivinicultura',
-        ['payload'],
-        unique=False,
-        postgresql_using='gin',
-        schema='vitivinicultura'
-    )
-
     # Tabela de histórico
     op.create_table(
         'raw_vitivinicultura_history',
