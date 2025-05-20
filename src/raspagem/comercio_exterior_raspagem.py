@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.utils import extrair_numeros
+from src.utils import remover_acentos
 from src.config import URL_SITE_EMBRAPA
 
 class ComercioExteriorRaspagemAbstract(ABC):
@@ -50,7 +51,7 @@ class ComercioExteriorRaspagemAbstract(ABC):
             for tr in data_table.find("tbody").find_all("tr"):  # type: ignore
                 pais = {}
                 tds = tr.find_all("td")  # type: ignore
-                pais["pais"] = tds[0].string.strip()  # type: ignore
+                pais["pais"] = remover_acentos(tds[0].string.strip())  # type: ignore
                 pais["quantidade_kg"] = extrair_numeros(tds[1].string.strip())  # type: ignore
                 pais["valor_us"] = extrair_numeros(tds[2].string.strip())  # type: ignore
                 paises.append(pais)

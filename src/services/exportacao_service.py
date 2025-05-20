@@ -1,52 +1,65 @@
-"""
-Service para Exportação de uvas, vinhos e derivados
-do Brasil.
-"""
+# src/services/exportacao_service.py
+"""Service para exportação de vinhos, sucos e derivados
+    do Rio Grande do Sul."""
 
 import logging
+from datetime import datetime, timezone
 from src.raspagem.exportacao_raspagem import ExportacaoRaspagem
 from src.repositories.exportacao_repository import ExportacaoRepository
-from src.repositories.raw_repository import RawRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.config.logging_config import configurar_logging
 
+configurar_logging()
 logger = logging.getLogger(__name__)
-
 
 class ExportacaoService:
     """
-    Service para Exportação de uvas, vinhos e derivados
-do Brasil.
+    Service para exportação de vinhos, sucos e derivados
+    do Rio Grande do Sul.
     """
 
     def __init__(self):
-        self._repo_raw = RawRepository()
+        self._repo = ExportacaoRepository()
 
-    def get_por_ano(self, ano: int):
+    def get_por_ano(self, ano: int, subopcao: str) -> dict:
         """
-        Retorna a exportação de uvas, vinhos e derivados do Brasil por ano.
+        Retorna a exportação de vinhos, sucos e derivados
+        Tenta raspar; em falha, retorna o que estiver salvo.
+        Sempre com as chaves 'source', 'fetched_at' e 'data'.
         """
         try:
-            exportacao_raspagem = ExportacaoRaspagem(ano, "subopt_01")
+            exportacao_raspagem = ExportacaoRaspagem(ano, subopcao)
             exportacao_raspagem.buscar_html()
             dados = exportacao_raspagem.parser_html()
+            agora = datetime.now(timezone.utc)
 
-            self._repo_raw.upsert(
-                endpoint="exportacao",
-                ano=ano,
-                subopcao="subopt_01",
-                payload=dados
-            )
-
-            self.exportacao_repository.salvar_ou_atualizar(dados, ano)
+            if dados:
+                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
+                return {
+                    "source":     "site",
+                    "fetched_at": agora,
+                    "data":       dados
+                }
 
         except TimeoutRequisicao:
-            logger.warning(f"[EXPORTACAO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
+            logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
         except ErroRequisicao as e:
-            logger.warning(f"[EXPORTACAO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
+            logger.warning(f"Erro HTTP {e.status_code} ao acessar ano {ano}; usando dados locais.")
         except ErroParser as e:
-            logger.error(f"[EXPORTACAO] Falha ao interpretar HTML do ano {ano}: {e}")
-        except Exception as e:
-            logger.exception(f"[EXPORTACAO] Erro inesperado ao processar dados de {ano}: {e}")
+            logger.error(f"Falha ao interpretar HTML do ano {ano}: {e}")
+        except Exception:
+            logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
+            
+        registro = self._repo.get_por_ano(ano, subopcao)
+        if registro is None:
+            return {
+                "source":     "banco",
+                "fetched_at": None,
+                "data":       None
+            }
 
-        return self.exportacao_repository.get_por_ano(ano)
+        return {
+            "source":     "banco",
+            "fetched_at": registro["fetched_at"],
+            "data":       registro["data"]
+        }

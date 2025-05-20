@@ -1,52 +1,65 @@
-"""
-Service para Processamento de uvas
-do Rio Grande do Sul.
-"""
+# src/services/processamento_service.py
+"""Service para processamento de vinhos, sucos e derivados
+    do Rio Grande do Sul."""
 
 import logging
+from datetime import datetime, timezone
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
 from src.repositories.processamento_repository import ProcessamentoRepository
-from src.repositories.raw_repository import RawRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.config.logging_config import configurar_logging
 
+configurar_logging()
 logger = logging.getLogger(__name__)
 
 class ProcessamentoService:
     """
     Service para Processamento de uvas
-do Rio Grande do Sul.
+    do Rio Grande do Sul.
     """
 
     def __init__(self):
-        self._repo_raw = RawRepository()
-        self.processamento_repository = ProcessamentoRepository()
+        self._repo = ProcessamentoRepository()
 
-    def get_por_ano(self, ano: int):
+    def get_por_ano(self, ano: int, subopcao: str) -> dict:
         """
-        Retorna o processamento de uvas do Rio Grande do Sul por ano.
+        Retorna a processamento de uvas.
+        Tenta raspar; em falha, retorna o que estiver salvo.
+        Sempre com as chaves 'source', 'fetched_at' e 'data'.
         """
         try:
-            processamento_raspagem = ProcessamentoRaspagem(ano, "subopt_01")
-            processamento_raspagem.buscar_html()
-            dados = processamento_raspagem.parser_html()
+            raspagem = ProcessamentoRaspagem(ano, subopcao)
+            raspagem.buscar_html()
+            dados = raspagem.parser_html()
+            agora = datetime.now(timezone.utc)
 
-            self._repo_raw.upsert(
-                endpoint="processamento",
-                ano=ano,
-                subopcao="subopt_01",
-                payload=dados
-            )
-
-            self.processamento_repository.salvar_ou_atualizar(dados, ano)
+            if dados:
+                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
+                return {
+                    "source":     "site",
+                    "fetched_at": agora,
+                    "data":       dados
+                }
 
         except TimeoutRequisicao:
-            logger.warning(f"[PROCESSAMENTO] Timeout ao acessar dados do ano {ano}. Retornando dados locais.")
+            logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
         except ErroRequisicao as e:
-            logger.warning(f"[PROCESSAMENTO] Erro HTTP {e.status_code} ao acessar dados de {ano}. Retornando dados locais.")
+            logger.warning(f"Erro HTTP {e.status_code} ao acessar ano {ano}; usando dados locais.")
         except ErroParser as e:
-            logger.error(f"[PROCESSAMENTO] Falha ao interpretar HTML do ano {ano}: {e}")
-        except Exception as e:
-            logger.exception(f"[PROCESSAMENTO] Erro inesperado ao processar dados de {ano}: {e}")
+            logger.error(f"Falha ao interpretar HTML do ano {ano}: {e}")
+        except Exception:
+            logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
 
-        return self.processamento_repository.get_por_ano(ano)
+        registro = self._repo.get_por_ano(ano, subopcao)
+        if registro is None:
+            return {
+                "source":     "banco",
+                "fetched_at": None,
+                "data":       None
+            }
+
+        return {
+            "source":     "banco",
+            "fetched_at": registro["fetched_at"],
+            "data":       registro["data"]
+        }

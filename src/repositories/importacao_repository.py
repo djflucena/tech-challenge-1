@@ -1,11 +1,11 @@
-"""Classe responsável por gerenciar os dados de importação"""
 # src/repositories/importacao.py
-from src.repositories.base import BaseRepository
+"""Classe responsável por gerenciar os dados de importação"""
+from src.repositories.raw_repository import RawRepository
 
-class ImportacaoRepository(BaseRepository):
+class ImportacaoRepository(RawRepository):
     """
     Classe responsável por gerenciar os dados de importação.
+    Exige subopcao
     """
     def __init__(self):
-        # “importacao” é a chave em src/config.py e exige subopcao
         super().__init__(categoria="importacao", has_subopcao=True)

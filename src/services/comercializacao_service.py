@@ -1,40 +1,40 @@
-# src/services/importacao_service.py
-"""Service para importação de vinhos, sucos e derivados
-    do Rio Grande do Sul."""
+# src/services/comercializacao_service.py
+"""Service para comercialização de vinhos, sucos e derivados
+do Rio Grande do Sul."""
 
 import logging
 from datetime import datetime, timezone
-from src.raspagem.importacao_raspagem import ImportacaoRaspagem
-from src.repositories.importacao_repository import ImportacaoRepository
+from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
+from src.repositories.comercializacao_repository import ComercializacaoRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.config.logging_config import configurar_logging
 
 configurar_logging()
 logger = logging.getLogger(__name__)
 
-class ImportacaoService:
+class ComercializacaoService:
     """
-    Service para importação de vinhos, sucos e derivados
+    Service para comercialização de vinhos, sucos e derivados
     do Rio Grande do Sul.
     """
 
     def __init__(self):
-        self._repo = ImportacaoRepository()
+        self._repo = ComercializacaoRepository()
 
-    def get_por_ano(self, ano: int, subopcao: str) -> dict:
+    def get_por_ano(self, ano: int) -> dict:
         """
-        Retorna a importação de vinhos, sucos e derivados
+        Retorna a comercialização de vinhos, sucos e derivados.
         Tenta raspar; em falha, retorna o que estiver salvo.
         Sempre com as chaves 'source', 'fetched_at' e 'data'.
         """
         try:
-            importacao_raspagem = ImportacaoRaspagem(ano, "subopt_01")
-            importacao_raspagem.buscar_html()
-            dados = importacao_raspagem.parser_html()
+            raspagem = ComercializacoRaspagem(ano)
+            raspagem.buscar_html()
+            dados = raspagem.parser_html()
             agora = datetime.now(timezone.utc)
 
             if dados:
-                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
+                self._repo.salvar_ou_atualizar(dados, ano)
                 return {
                     "source":     "site",
                     "fetched_at": agora,

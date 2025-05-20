@@ -1,35 +1,48 @@
+# src/repositories/raw_repository.py
+"""Repositório genérico para qualquer endpoint de vitivinicultura."""
+
 from datetime import datetime, timezone
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import select
 from src.database import SessionLocal
 from src.repositories.raw import RawVitiviniculturaCurrent
-from sqlalchemy import select
+
 class RawRepository:
-    def upsert(
+    def __init__(self, categoria: str, has_subopcao: bool):
+        """
+        Repositório genérico para qualquer endpoint de vitivinicultura.
+        Guarda internamente o nome do endpoint (categoria) e se aceita subopcao.
+        """
+        self._endpoint = categoria
+        self._has_subopcao = has_subopcao
+
+    def salvar_ou_atualizar(
         self,
-        endpoint: str,
+        dados: dict,
         ano: int,
-        subopcao: str | None,
-        payload: dict
+        subopcao: str | None = None,
     ) -> None:
         """
-        Insere ou atualiza (upsert) um registro na tabela raw_vitivinicultura.
-
-        Se já existir um registro com a mesma chave primária (endpoint, ano, subopcao),
-        os campos 'payload' e 'fetched_at' serão atualizados.
+        Insere ou atualiza um registro na tabela raw_vitivinicultura.
 
         Parâmetros:
-            endpoint (str): Nome do endpoint (ex: 'comercializacao', 'producao').
-            ano (int): Ano dos dados.
-            subopcao (str | None): Subcategoria opcional. Usa string vazia se None.
-            payload (dict): Dados a serem armazenados no formato JSON.
+            dados (dict): payload a ser salvo.
+            ano (int): ano dos dados.
+            subopcao (str | None): subcategoria, se aplicável.
         """
-        pk_sub = subopcao if subopcao is not None else ""
+        if not self._has_subopcao:
+            pk_sub = ""
+        else:
+            if subopcao is None:
+                raise ValueError(f"{self._endpoint!r} exige subopcao")
+            pk_sub = subopcao
+
         insert_stmt = insert(RawVitiviniculturaCurrent).values(
-            endpoint=endpoint,
+            endpoint=self._endpoint,
             ano=ano,
             subopcao=pk_sub,
             fetched_at=datetime.now(timezone.utc),
-            payload=payload
+            payload=dados
         )
 
         upsert_stmt = insert_stmt.on_conflict_do_update(
@@ -44,34 +57,44 @@ class RawRepository:
             session.execute(upsert_stmt)
             session.commit()
 
-    def get(
+    def get_por_ano(
         self,
-        endpoint: str,
         ano: int,
-        subopcao: str | None
+        subopcao: str | None = None,
     ) -> dict | None:
         """
-        Busca um registro da tabela raw_vitivinicultura com base nos filtros fornecidos.
+        Busca o registro em raw_vitivinicultura para o ano (e subopcao).
 
         Parâmetros:
-            endpoint (str): Nome do endpoint (ex: 'comercializacao', 'producao').
-            ano (int): Ano dos dados.
-            subopcao (str | None): Subcategoria opcional. Usa string vazia se None.
+            ano (int): ano dos dados.
+            subopcao (str | None): subcategoria, se aplicável.
 
         Retorna:
-            dict | None: O conteúdo armazenado em 'payload' se encontrado, caso contrário None.
+            dict com chaves "data" e "fetched_at", ou None se não existir.
         """
+
         try:
-            pk_sub = subopcao or ""
+            if not self._has_subopcao:
+                pk_sub = ""
+            else:
+                if subopcao is None:
+                    raise ValueError(f"{self._endpoint!r} exige subopcao")
+                pk_sub = subopcao
+
             with SessionLocal() as session:
                 stmt = select(RawVitiviniculturaCurrent).filter_by(
-                    endpoint=endpoint,
+                    endpoint=self._endpoint,
                     ano=ano,
                     subopcao=pk_sub
                 )
                 row = session.execute(stmt).scalars().first()
-                return row.payload if row else None
+                if not row:
+                    return None
+
+                return {
+                    "data":        row.payload,
+                    "fetched_at":  row.fetched_at
+                }
         except Exception as e:
             print(f"Erro ao buscar dados do banco: {e}")
             return None
-
