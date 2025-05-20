@@ -74,7 +74,7 @@ class TestComportamentoRaspagem(unittest.TestCase):
         self.assertEqual(len(dados["Produto"]), 9)
 
         categorias = [
-            "VINHO DE MESA", "VINHO FINO DE MESA", "VINHO FRIZANTE", "VINHO ORGÂNICO",
+            "VINHO DE MESA", "VINHO FINO DE MESA", "VINHO FRIZANTE", "VINHO ORGANICO",
             "VINHO ESPECIAL", "ESPUMANTES", "SUCO DE UVAS",
             "SUCO DE UVAS CONCENTRADO", "OUTROS PRODUTOS COMERCIALIZADOS"
         ]
@@ -85,7 +85,6 @@ class TestComportamentoRaspagem(unittest.TestCase):
         self.assertEqual(dados["Produto"][1]["VINHO FINO DE MESA"], 18589310)
         self.assertEqual(dados["Produto"][4]["VINHO ESPECIAL"], 0)
         self.assertEqual(dados["Produto"][6]["SUCO DE UVAS"], 166708720)
-
         self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3)
         self.assertEqual(list(dados["Produto"][0]["TIPOS"][0].values())[0], 165097539)  # VINHO DE MESA - Tinto
         self.assertEqual(list(dados["Produto"][8]["TIPOS"][2].values())[0], 111)  # Aguardente de vinho 50°gl

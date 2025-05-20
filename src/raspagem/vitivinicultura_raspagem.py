@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 import requests
 from src.utils import extrair_numeros
+from src.utils import remover_acentos
 from src.config import URL_SITE_EMBRAPA
 from requests.exceptions import Timeout
 
@@ -77,9 +78,21 @@ class VitiviniculturaRaspagem(ABC):
         }
 
     def __extrair_item(self, tds: list) -> dict:
-        item = dict()
-        item[tds[0].string.strip()] = extrair_numeros(tds[1].string.strip())
-        return item
+        """
+        Extrai e processa os dados de uma linha da tabela HTML contendo dois campos.
+
+        Parâmetros:
+            tds (list): Lista de objetos BeautifulSoup representando as células <td>
+                        da linha da tabela.
+        Retorna:
+            dict: Dicionário com uma única chave-valor:
+                - Chave: Nome do item (normalizado, sem acentos);
+                - Valor: Valor numérico associado ao item (processado pela função `extrair_numeros`).
+
+        """
+        chave = remover_acentos(tds[0].string.strip())
+        valor = extrair_numeros(tds[1].string.strip())
+        return {chave: valor}
 
     def __procurar_item_id(self, produtos, id_item_corrente) -> int:
         for index, produto in enumerate(produtos):
