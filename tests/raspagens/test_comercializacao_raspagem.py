@@ -84,7 +84,7 @@ class TestComercializacoRaspagem(unittest.TestCase):
         self.assertIn("VINHO DE MESA", dados["Produto"][0])
         self.assertIn("VINHO FINO DE MESA", dados["Produto"][1])
         self.assertIn("VINHO FRIZANTE", dados["Produto"][2])
-        self.assertIn("VINHO ORGÂNICO", dados["Produto"][3])
+        self.assertIn("VINHO ORGANICO", dados["Produto"][3])
         self.assertIn("VINHO ESPECIAL", dados["Produto"][4])
         self.assertIn("ESPUMANTES", dados["Produto"][5])
         self.assertIn("SUCO DE UVAS", dados["Produto"][6])
@@ -95,7 +95,7 @@ class TestComercializacoRaspagem(unittest.TestCase):
         self.assertEqual(dados["Produto"][0]["VINHO DE MESA"], 187016848)
         self.assertEqual(dados["Produto"][1]["VINHO FINO DE MESA"], 18589310)
         self.assertEqual(dados["Produto"][2]["VINHO FRIZANTE"], 2843600)
-        self.assertEqual(dados["Produto"][3]["VINHO ORGÂNICO"], 9123)
+        self.assertEqual(dados["Produto"][3]["VINHO ORGANICO"], 9123)
         self.assertEqual(
             dados["Produto"][4]["VINHO ESPECIAL"], 0
         )  # '-' foi convertido para 0
