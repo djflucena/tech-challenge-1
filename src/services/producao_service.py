@@ -6,10 +6,15 @@ do Rio Grande do Sul.
 
 import logging
 from datetime import datetime, timezone
-from src.config.logging_config import configurar_logging
 from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.repositories.producao_repository import ProducaoRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.repositories.exceptions import (
+    ErroConexaoBD,
+    ErroConsultaBD,
+    RegistroNaoEncontrado,
+)
+from src.config.logging_config import configurar_logging
 
 configurar_logging()
 logger = logging.getLogger(__name__)
@@ -35,14 +40,6 @@ class ProducaoService:
             dados = raspagem.parser_html()
             agora = datetime.now(timezone.utc)
 
-            if dados:
-                self._repo.salvar_ou_atualizar(dados, ano)
-                return {
-                    "source":     "site",
-                    "fetched_at": agora,
-                    "data":       dados
-                }
-
         except TimeoutRequisicao:
             logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
         except ErroRequisicao as e:
@@ -52,8 +49,29 @@ class ProducaoService:
         except Exception:
             logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
 
-        registro = self._repo.get_por_ano(ano)
-        if registro is None:
+        if dados:
+            try:
+                self._repo.salvar_ou_atualizar(dados, ano)
+            except (ErroConexaoBD, ErroConsultaBD) as e:
+                logger.warning(f"Impossível salvar cache: {e}; continuando com dados do site.")
+
+            return {
+                "source":     "site",
+                "fetched_at": agora,
+                "data":       dados
+            }
+
+        try:
+            registro = self._repo.get_por_ano(ano)
+        except RegistroNaoEncontrado:
+            logger.warning(f"Sem dados no site nem no banco para o ano {ano}.")
+            return {
+                "source":     "banco",
+                "fetched_at": None,
+                "data":       None
+            }
+        except (ErroConexaoBD, ErroConsultaBD) as e:
+            logger.error(f"Erro de persistência: {e}")
             return {
                 "source":     "banco",
                 "fetched_at": None,

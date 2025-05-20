@@ -1,12 +1,19 @@
 # src/services/processamento_service.py
-"""Service para processamento de vinhos, sucos e derivados
-    do Rio Grande do Sul."""
+"""
+Service para processamento de vinhos, sucos e derivados
+do Rio Grande do Sul.
+"""
 
 import logging
 from datetime import datetime, timezone
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
 from src.repositories.processamento_repository import ProcessamentoRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.repositories.exceptions import (
+    ErroConexaoBD,
+    ErroConsultaBD,
+    RegistroNaoEncontrado,
+)
 from src.config.logging_config import configurar_logging
 
 configurar_logging()
@@ -33,14 +40,6 @@ class ProcessamentoService:
             dados = raspagem.parser_html()
             agora = datetime.now(timezone.utc)
 
-            if dados:
-                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
-                return {
-                    "source":     "site",
-                    "fetched_at": agora,
-                    "data":       dados
-                }
-
         except TimeoutRequisicao:
             logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
         except ErroRequisicao as e:
@@ -50,8 +49,29 @@ class ProcessamentoService:
         except Exception:
             logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
 
-        registro = self._repo.get_por_ano(ano, subopcao)
-        if registro is None:
+        if dados:
+            try:
+                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
+            except (ErroConexaoBD, ErroConsultaBD) as e:
+                logger.warning(f"Impossível salvar cache: {e}; continuando com dados do site.")
+
+            return {
+                "source":     "site",
+                "fetched_at": agora,
+                "data":       dados
+            }
+
+        try:
+            registro = self._repo.get_por_ano(ano, subopcao)
+        except RegistroNaoEncontrado:
+            logger.warning(f"Sem dados no site nem no banco para o ano {ano}.")
+            return {
+                "source":     "banco",
+                "fetched_at": None,
+                "data":       None
+            }
+        except (ErroConexaoBD, ErroConsultaBD) as e:
+            logger.error(f"Erro de persistência: {e}")
             return {
                 "source":     "banco",
                 "fetched_at": None,
