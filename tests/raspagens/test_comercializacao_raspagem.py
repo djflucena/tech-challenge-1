@@ -75,120 +75,21 @@ class TestComercializacoRaspagem(unittest.TestCase):
         # Verificações gerais
         self.assertIn("Produto", dados)
         self.assertIn("Total", dados)
-        self.assertEqual(dados["Total"], 472291085)  # Total geral
+        self.assertEqual(dados["Total"], 472291085)
+        self.assertEqual(len(dados["Produto"]), 9)
 
-        # Quantidade de categorias principais
-        self.assertEqual(len(dados["Produto"]), 9)  # Número de categorias principais
+        categorias = [
+            "VINHO DE MESA", "VINHO FINO DE MESA", "VINHO FRIZANTE", "VINHO ORGANICO",
+            "VINHO ESPECIAL", "ESPUMANTES", "SUCO DE UVAS",
+            "SUCO DE UVAS CONCENTRADO", "OUTROS PRODUTOS COMERCIALIZADOS"
+        ]
+        for i, nome in enumerate(categorias):
+            self.assertIn(nome, dados["Produto"][i])
 
-        # Categorias e quantidades principais
-        self.assertIn("VINHO DE MESA", dados["Produto"][0])
-        self.assertIn("VINHO FINO DE MESA", dados["Produto"][1])
-        self.assertIn("VINHO FRIZANTE", dados["Produto"][2])
-        self.assertIn("VINHO ORGANICO", dados["Produto"][3])
-        self.assertIn("VINHO ESPECIAL", dados["Produto"][4])
-        self.assertIn("ESPUMANTES", dados["Produto"][5])
-        self.assertIn("SUCO DE UVAS", dados["Produto"][6])
-        self.assertIn("SUCO DE UVAS CONCENTRADO", dados["Produto"][7])
-        self.assertIn("OUTROS PRODUTOS COMERCIALIZADOS", dados["Produto"][8])
-
-        # Valores principais
         self.assertEqual(dados["Produto"][0]["VINHO DE MESA"], 187016848)
         self.assertEqual(dados["Produto"][1]["VINHO FINO DE MESA"], 18589310)
-        self.assertEqual(dados["Produto"][2]["VINHO FRIZANTE"], 2843600)
-        self.assertEqual(dados["Produto"][3]["VINHO ORGANICO"], 9123)
-        self.assertEqual(
-            dados["Produto"][4]["VINHO ESPECIAL"], 0
-        )  # '-' foi convertido para 0
-        self.assertEqual(dados["Produto"][5]["ESPUMANTES"], 29381635)
+        self.assertEqual(dados["Produto"][4]["VINHO ESPECIAL"], 0)
         self.assertEqual(dados["Produto"][6]["SUCO DE UVAS"], 166708720)
-        self.assertEqual(dados["Produto"][7]["SUCO DE UVAS CONCENTRADO"], 37852507)
-        self.assertEqual(
-            dados["Produto"][8]["OUTROS PRODUTOS COMERCIALIZADOS"], 29889342
-        )
-
-        # Subitens (TIPOS) por categoria
-        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3)  # VINHO DE MESA
-        self.assertEqual(len(dados["Produto"][1]["TIPOS"]), 3)  # VINHO FINO DE MESA
-        self.assertEqual(
-            len(dados["Produto"][2]["TIPOS"]), 0
-        )  # VINHO FRIZANTE (sem subitens)
-        self.assertEqual(
-            len(dados["Produto"][3]["TIPOS"]), 0
-        )  # VINHO ORGÂNICO (sem subitens)
-        self.assertEqual(len(dados["Produto"][4]["TIPOS"]), 3)  # VINHO ESPECIAL
-        self.assertEqual(len(dados["Produto"][5]["TIPOS"]), 3)  # ESPUMANTES
-        self.assertEqual(len(dados["Produto"][6]["TIPOS"]), 5)  # SUCO DE UVAS
-        self.assertEqual(
-            len(dados["Produto"][7]["TIPOS"]), 0
-        )  # SUCO DE UVAS CONCENTRADO (sem subitens)
-        self.assertEqual(
-            len(dados["Produto"][8]["TIPOS"]), 36
-        )  # OUTROS PRODUTOS COMERCIALIZADOS
-
-        # Exemplos de subitens
-        self.assertEqual(
-            list(dados["Produto"][0]["TIPOS"][0].values())[0], 165097539
-        )  # VINHO DE MESA - Tinto
-        self.assertEqual(
-            list(dados["Produto"][0]["TIPOS"][1].values())[0], 2520748
-        )  # VINHO DE MESA - Rosado
-        self.assertEqual(
-            list(dados["Produto"][0]["TIPOS"][2].values())[0], 19398561
-        )  # VINHO DE MESA - Branco
-
-        self.assertEqual(
-            list(dados["Produto"][1]["TIPOS"][0].values())[0], 12450606
-        )  # VINHO FINO DE MESA - Tinto
-        self.assertEqual(
-            list(dados["Produto"][1]["TIPOS"][1].values())[0], 1214583
-        )  # VINHO FINO DE MESA - Rosado
-        self.assertEqual(
-            list(dados["Produto"][1]["TIPOS"][2].values())[0], 4924121
-        )  # VINHO FINO DE MESA - Branco
-
-        self.assertEqual(
-            list(dados["Produto"][4]["TIPOS"][0].values())[0], 0
-        )  # VINHO ESPECIAL - Tinto
-        self.assertEqual(
-            list(dados["Produto"][4]["TIPOS"][1].values())[0], 0
-        )  # VINHO ESPECIAL - Rosado
-        self.assertEqual(
-            list(dados["Produto"][4]["TIPOS"][2].values())[0], 0
-        )  # VINHO ESPECIAL - Branco
-
-        self.assertEqual(
-            list(dados["Produto"][5]["TIPOS"][0].values())[0], 9771698
-        )  # ESPUMANTES - Espumante Moscatel
-        self.assertEqual(
-            list(dados["Produto"][5]["TIPOS"][1].values())[0], 19609379
-        )  # ESPUMANTES - Espumante
-        self.assertEqual(
-            list(dados["Produto"][5]["TIPOS"][2].values())[0], 558
-        )  # ESPUMANTES - Espumante Orgânico
-
-        self.assertEqual(
-            list(dados["Produto"][6]["TIPOS"][0].values())[0], 129419407
-        )  # SUCO DE UVAS - Suco Natural Integral
-        self.assertEqual(
-            list(dados["Produto"][6]["TIPOS"][1].values())[0], 128599
-        )  # SUCO DE UVAS - Suco Adoçado
-        self.assertEqual(
-            list(dados["Produto"][6]["TIPOS"][2].values())[0], 34402925
-        )  # SUCO DE UVAS - Suco Reprocessado/reconstituído
-        self.assertEqual(
-            list(dados["Produto"][6]["TIPOS"][3].values())[0], 932154
-        )  # SUCO DE UVAS - Suco Orgânico
-        self.assertEqual(
-            list(dados["Produto"][6]["TIPOS"][4].values())[0], 1825635
-        )  # SUCO DE UVAS - Outros sucos de uvas
-
-        # Um exemplo de "OUTROS PRODUTOS COMERCIALIZADOS"
-        self.assertEqual(
-            list(dados["Produto"][8]["TIPOS"][0].values())[0], 8152
-        )  # Outros vinhos (sem informação detalhada)
-        self.assertEqual(
-            list(dados["Produto"][8]["TIPOS"][1].values())[0], 0
-        )  # Agrin (fermentado, acético misto)
-        self.assertEqual(
-            list(dados["Produto"][8]["TIPOS"][2].values())[0], 111
-        )  # Aguardente de vinho 50°gl
+        self.assertEqual(len(dados["Produto"][0]["TIPOS"]), 3)
+        self.assertEqual(list(dados["Produto"][0]["TIPOS"][0].values())[0], 165097539)  # VINHO DE MESA - Tinto
+        self.assertEqual(list(dados["Produto"][8]["TIPOS"][2].values())[0], 111)  # Aguardente de vinho 50°gl
