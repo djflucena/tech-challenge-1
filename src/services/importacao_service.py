@@ -50,7 +50,7 @@ class ImportacaoService:
         except Exception:
             logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
 
-        registro = self._repo.get_por_ano(ano)
+        registro = self._repo.get_por_ano(ano, subopcao)
         if registro is None:
             return {
                 "source":     "banco",
