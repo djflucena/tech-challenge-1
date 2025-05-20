@@ -48,12 +48,12 @@ docker exec -it tech-challenge-1_db_1 psql -U postgres -d vitivinicultura
 Dentro do prompt do `psql`, você pode executar os seguintes comandos:
 
 ```sql
--- Listar esquemas
-\dn;
+\dn \\ -- Listar esquemas
 
--- Listar tabelas no esquema "vitivinicultura"
-\dt vitivinicultura.*;
+\dt vitivinicultura.* \\ -- Listar tabelas no esquema "vitivinicultura"
 
--- Listar visões (views) no esquema "vitivinicultura"
-\dv vitivinicultura.*;
+\dv vitivinicultura.* \\ -- Listar visões (views) no esquema "vitivinicultura"
+
+\d+ vitivinicultura.* \\ -- Ver todas as tabelas, views, colunas e tipos no esquema "vitivinicultura"
+
 ```
