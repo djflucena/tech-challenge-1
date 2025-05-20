@@ -1,13 +1,11 @@
-"""
-    Classe responsável por gerenciar os dados de produção
-"""
 # src/repositories/producao.py
-from src.repositories.base import BaseRepository
+"""Classe responsável por gerenciar os dados de produção"""
+from src.repositories.raw_repository import RawRepository
 
-class ProducaoRepository(BaseRepository):
+class ProducaoRepository(RawRepository):
     """
     Classe responsável por gerenciar os dados de produção.
+    NÃO exige subopcao
     """
     def __init__(self):
-        # “producao” é a chave em src/config.py e NÃO exige subopcao
         super().__init__(categoria="producao", has_subopcao=False)

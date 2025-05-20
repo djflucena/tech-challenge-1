@@ -8,8 +8,8 @@ from src.config import app
 from src.config import URL_BASE
 from src.services.importacao_service import ImportacaoService
 from src.services.exportacao_service import ExportacaoService
-from src.services.producao_services import ProducaoService
-from src.services.comercializacao_services import ComercializacaoService
+from src.services.producao_service import ProducaoService
+from src.services.comercializacao_service import ComercializacaoService
 from src.services.processamento_service import ProcessamentoService
 from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoProcessamentoFilterParams

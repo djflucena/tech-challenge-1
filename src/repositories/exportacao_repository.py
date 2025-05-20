@@ -1,11 +1,11 @@
-"""Classe responsável por gerenciar os dados de exportação"""
 # src/repositories/exportacao.py
-from src.repositories.base import BaseRepository
+"""Classe responsável por gerenciar os dados de exportação"""
+from src.repositories.raw_repository import RawRepository
 
-class ExportacaoRepository(BaseRepository):
+class ExportacaoRepository(RawRepository):
     """
     Classe responsável por gerenciar os dados de exportação.
+    Exige subopcao
     """
     def __init__(self):
-        # “exportacao” é a chave em src/config.py e exige subopcao
         super().__init__(categoria="exportacao", has_subopcao=True)

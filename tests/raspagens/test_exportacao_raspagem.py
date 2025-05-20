@@ -84,14 +84,14 @@ class TestExportacaoRaspagem(unittest.TestCase):
 
         self.assertEqual(len(dados["paises"]), 141)
 
-        self.assertEqual(dados["paises"][0]["pais"], "Afeganistão")
+        self.assertEqual(dados["paises"][0]["pais"], "Afeganistao")
         self.assertEqual(dados["paises"][0]["quantidade_kg"], 0.0)
         self.assertEqual(dados["paises"][0]["valor_us"], 0.0)
 
-        self.assertEqual(dados["paises"][1]["pais"], "África do Sul")
+        self.assertEqual(dados["paises"][1]["pais"], "Africa do Sul")
         self.assertEqual(dados["paises"][1]["quantidade_kg"], 117.0)
         self.assertEqual(dados["paises"][1]["valor_us"], 698.0)
 
-        self.assertEqual(dados["paises"][-1]["pais"], "Vietnã")
+        self.assertEqual(dados["paises"][-1]["pais"], "Vietna")
         self.assertEqual(dados["paises"][-1]["quantidade_kg"], 72.0)
         self.assertEqual(dados["paises"][-1]["valor_us"], 128.0)

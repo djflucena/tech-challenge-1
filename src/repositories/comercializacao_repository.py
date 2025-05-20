@@ -1,11 +1,11 @@
-"""Classe responsável por gerenciar os dados de comercialização"""
 # src/repositories/comercializacao.py
-from src.repositories.base import BaseRepository
+"""Classe responsável por gerenciar os dados de comercialização"""
+from src.repositories.raw_repository import RawRepository
 
-class ComercializacaoRepository(BaseRepository):
+class ComercializacaoRepository(RawRepository):
     """
     Classe responsável por gerenciar os dados de comercialização.
+    NÃO exige subopcao.
     """
     def __init__(self):
-        # “comercializacao” é a chave em src/config.py e NÃO exige subopcao
         super().__init__(categoria="comercializacao", has_subopcao=False)
