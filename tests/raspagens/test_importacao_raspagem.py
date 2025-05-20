@@ -1,71 +1,22 @@
 """Classe de teste para a raspagem de importação."""
-import unittest
-from unittest.mock import Mock, patch
-from pathlib import Path
-from requests.exceptions import Timeout
-from bs4 import BeautifulSoup
-
+from tests.raspagens.base_test_raspagem import BaseTestRaspagem
 from src.raspagem.importacao_raspagem import ImportacaoRaspagem
+from bs4 import BeautifulSoup
+from pathlib import Path
 
 
-class TestComportamentoImportacaoRaspagem(unittest.TestCase):
-    """Cenários de comportamento da raspagem de importação."""
+class TestImportacaoRaspagem(BaseTestRaspagem):
+    raspagem_class = ImportacaoRaspagem
+    kwargs = {"ano": 1970, "subopcao": "subopt_01"}
 
     def setUp(self):
-        """Dado um HTML salvo localmente para testes de importação"""
-        html_file_path = (
-            Path(__file__).parent
-            / "sources"
-            / "ano=1970&opcao=opt_05&subopcao=subopt_01.html"
-        )
+        super().setUp()
+        html_file_path = Path(__file__).parent / "sources" / "ano=1970&opcao=opt_05&subopcao=subopt_01.html"
         with html_file_path.open("r", encoding="utf-8") as file:
             self.mock_html_content = file.read()
 
-    def test_quando_html_200_entao_html_e_titulo_sao_armazenados(self):
-        """Cenário: Requisição 200 com sucesso armazena o HTML"""
-        mock_response = Mock(status_code=200, text=self.mock_html_content)
-
-        with patch("requests.get", return_value=mock_response):
-            raspagem = ImportacaoRaspagem(1970, "subopt_01")
-            raspagem.buscar_html()
-
-        self.assertIsNotNone(raspagem.html)
-        self.assertIn("Banco de dados de uva, vinho e derivados", raspagem.html.title.string)
-
-    def test_quando_status_404_entao_excecao_com_mensagem_apropriada(self):
-        """Cenário: Requisição com erro 404"""
-        mock_response = Mock(status_code=404, text=self.mock_html_content)
-
-        with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
-                raspagem = ImportacaoRaspagem(1970, "subopt_01")
-                raspagem.buscar_html()
-
-        self.assertEqual(str(context.exception), "Failed to fetch HTML. Status code: 404")
-
-    def test_quando_status_500_entao_excecao_com_mensagem_apropriada(self):
-        """Cenário: Requisição com erro 500"""
-        mock_response = Mock(status_code=500, text=self.mock_html_content)
-
-        with patch("requests.get", return_value=mock_response):
-            with self.assertRaises(Exception) as context:
-                raspagem = ImportacaoRaspagem(1970, "subopt_01")
-                raspagem.buscar_html()
-
-        self.assertEqual(str(context.exception), "Failed to fetch HTML. Status code: 500")
-
-    def test_quando_timeout_entao_excecao_com_mensagem_timeout(self):
-        """Cenário: Timeout na requisição"""
-        with patch("requests.get", side_effect=Timeout):
-            with self.assertRaises(Exception) as context:
-                raspagem = ImportacaoRaspagem(1970, "subopt_01")
-                raspagem.buscar_html()
-
-        self.assertEqual(str(context.exception), "Request timed out")
-
-    def test_quando_parser_executado_entao_dados_de_paises_sao_extraidos(self):
-        """Cenário: Parser com HTML válido retorna totais e lista de países"""
-        raspagem = ImportacaoRaspagem(1970, "subopt_01")
+    def test_parser_extrai_dados_de_paises(self):
+        raspagem = self.raspagem_class(**self.kwargs)
         raspagem.html = BeautifulSoup(self.mock_html_content, "html.parser")
         dados = raspagem.parser_html()
 

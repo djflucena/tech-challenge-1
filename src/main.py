@@ -15,6 +15,9 @@ from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoProcessamentoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
 from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
+from src.config.logging_config import configurar_logging
+
+configurar_logging()
 
 
 @app.get(URL_BASE + "/producao")

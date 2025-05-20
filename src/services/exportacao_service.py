@@ -1,9 +1,16 @@
 # src/services/exportacao_service.py
 """Service para exportação de vinhos, sucos e derivados
     do Rio Grande do Sul."""
+
+import logging
 from datetime import datetime, timezone
 from src.raspagem.exportacao_raspagem import ExportacaoRaspagem
 from src.repositories.exportacao_repository import ExportacaoRepository
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from src.config.logging_config import configurar_logging
+
+configurar_logging()
+logger = logging.getLogger(__name__)
 
 class ExportacaoService:
     """
@@ -34,8 +41,14 @@ class ExportacaoService:
                     "data":       dados
                 }
 
-        except Exception as e:
-            print(f"[warn] erro na raspagem: {e}")
+        except TimeoutRequisicao:
+            logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
+        except ErroRequisicao as e:
+            logger.warning(f"Erro HTTP {e.status_code} ao acessar ano {ano}; usando dados locais.")
+        except ErroParser as e:
+            logger.error(f"Falha ao interpretar HTML do ano {ano}: {e}")
+        except Exception:
+            logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
             
         registro = self._repo.get_por_ano(ano, subopcao)
         if registro is None:

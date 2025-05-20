@@ -10,6 +10,7 @@ from src.utils import extrair_numeros
 from src.utils import remover_acentos
 from src.config import URL_SITE_EMBRAPA
 from requests.exceptions import Timeout
+from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 
 
 class VitiviniculturaRaspagem(ABC):
@@ -38,11 +39,10 @@ class VitiviniculturaRaspagem(ABC):
             if response.status_code == 200:
                 self.html = BeautifulSoup(response.text, "html.parser")
             else:
-                raise Exception(
-                    f"Failed to fetch HTML. Status code: {response.status_code}"
-                )
+                raise ErroRequisicao(response.status_code)
         except Timeout as e:
-            raise Exception("Request timed out") from e
+            raise TimeoutRequisicao()
+        
 
     def parser_html(self) -> dict:
         """
@@ -71,7 +71,7 @@ class VitiviniculturaRaspagem(ABC):
                     if item_corrente != -1:
                         produtos[item_corrente]["TIPOS"].append(subitem)
         except Exception as e:
-            raise Exception("Erro ao processar o html") from e
+            raise ErroParser("Erro ao processar o HTML") from e
         return {
             table_header_coluna_esquerda: produtos,
             table_footer_total_text: table_footer_total_val,
