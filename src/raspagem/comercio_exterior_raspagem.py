@@ -31,7 +31,7 @@ class ComercioExteriorRaspagemAbstract(ABC):
                 self.html = BeautifulSoup(response.text, "html.parser")
             else:
                 raise Exception(f"Failed to fetch HTML. Status code: {response.status_code}")
-        except TimeoutError as e:
+        except requests.Timeout as e:
             raise Exception("Request timed out") from e
 
     def parser_html(self):
