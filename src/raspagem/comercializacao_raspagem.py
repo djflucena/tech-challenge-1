@@ -3,7 +3,7 @@
 from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 
 
-class ComercializacoRaspagem(VitiviniculturaRaspagem):
+class ComercializacaoRaspagem(VitiviniculturaRaspagem):
     """
     Classe responsável por realizar a raspagem de dados
     da comercialização de vinhos, sucos e derivados do Rio Grande do Sul.

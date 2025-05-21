@@ -6,7 +6,7 @@ do Rio Grande do Sul.
 
 import logging
 from datetime import datetime, timezone
-from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.comercializacao_raspagem import ComercializacaoRaspagem
 from src.repositories.comercializacao_repository import ComercializacaoRepository
 from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
 from src.repositories.exceptions import (
@@ -26,16 +26,19 @@ class ComercializacaoService:
     """
 
     def __init__(self):
-        self._repo = ComercializacaoRepository()
+        self.comercializacao_repository = ComercializacaoRepository()
 
-    def get_por_ano(self, ano: int) -> dict:
+    def get_por_ano(self, ano: int) -> dict | str | None:
         """
         Retorna a comercialização de vinhos, sucos e derivados.
         Tenta raspar; em falha, retorna o que estiver salvo.
         Sempre com as chaves 'source', 'fetched_at' e 'data'.
         """
+        dados = None
+        agora = None
+
         try:
-            raspagem = ComercializacoRaspagem(ano)
+            raspagem = ComercializacaoRaspagem(ano)
             raspagem.buscar_html()
             dados = raspagem.parser_html()
             agora = datetime.now(timezone.utc)
@@ -51,7 +54,7 @@ class ComercializacaoService:
 
         if dados:
             try:
-                self._repo.salvar_ou_atualizar(dados, ano)
+                self.comercializacao_repository.salvar_ou_atualizar(dados, ano)
             except (ErroConexaoBD, ErroConsultaBD) as e:
                 logger.warning(f"Impossível salvar cache: {e}; continuando com dados do site.")
 
@@ -62,22 +65,25 @@ class ComercializacaoService:
             }
 
         try:
-            registro = self._repo.get_por_ano(ano)
+            registro = self.comercializacao_repository.get_por_ano(ano)
         except RegistroNaoEncontrado:
             logger.warning(f"Sem dados no site nem no banco para o ano {ano}.")
             return {
-                "source":     "banco",
+                "source":     "api",
                 "fetched_at": None,
                 "data":       None
             }
         except (ErroConexaoBD, ErroConsultaBD) as e:
             logger.error(f"Erro de persistência: {e}")
             return {
-                "source":     "banco",
+                "source":     "api",
                 "fetched_at": None,
                 "data":       None
             }
-
+        
+        if not isinstance(registro, dict):
+            return registro
+        
         return {
             "source":     "banco",
             "fetched_at": registro["fetched_at"],
