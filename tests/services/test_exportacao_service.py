@@ -7,22 +7,21 @@ from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, 
 class TestComportamentoExportacaoService(unittest.TestCase):
     def setUp(self):
         self.ano = 2023
+        self.subopcao = "subopt_01"
 
     @patch("src.services.exportacao_service.ExportacaoRaspagem")
-    @patch("src.services.exportacao_service.RawRepository")
     @patch("src.services.exportacao_service.ExportacaoRepository")
-    def test_quando_dados_validos_entao_salva_raw_e_final(self, mock_repo_final, mock_repo_raw, mock_raspagem):
+    def test_quando_dados_validos_entao_salva_raw_e_final(self, mock_repo_final, mock_raspagem):
         """Cenário: Dados disponíveis e válidos"""
         instance = mock_raspagem.return_value
         instance.buscar_html.return_value = None
         instance.parser_html.return_value = {"total": {}, "paises": []}
 
         service = ExportacaoService()
-        service.get_por_ano(self.ano)
+        service.get_por_ano(self.ano, self.subopcao)
 
         instance.buscar_html.assert_called_once()
         instance.parser_html.assert_called_once()
-        mock_repo_raw.return_value.upsert.assert_called_once()
         mock_repo_final.return_value.salvar_ou_atualizar.assert_called_once()
 
     @patch("src.services.exportacao_service.ExportacaoRaspagem", side_effect=TimeoutRequisicao())
@@ -31,8 +30,8 @@ class TestComportamentoExportacaoService(unittest.TestCase):
         """Cenário: Timeout na raspagem"""
         service = ExportacaoService()
         with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
 
     @patch("src.services.exportacao_service.ExportacaoRaspagem")
@@ -44,8 +43,8 @@ class TestComportamentoExportacaoService(unittest.TestCase):
 
         service = ExportacaoService()
         with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
 
     @patch("src.services.exportacao_service.ExportacaoRaspagem")
@@ -58,6 +57,6 @@ class TestComportamentoExportacaoService(unittest.TestCase):
 
         service = ExportacaoService()
         with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")

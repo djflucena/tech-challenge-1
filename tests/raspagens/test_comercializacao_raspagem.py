@@ -1,13 +1,13 @@
-"""Testes para a classe ComercializacoRaspagem, responsável por raspar dados de uma página HTML."""
+"""Testes para a classe ComercializacaoRaspagem, responsável por raspar dados de uma página HTML."""
 
 from tests.raspagens.base_test_raspagem import BaseTestRaspagem
-from src.raspagem.comercializacao_raspagem import ComercializacoRaspagem
+from src.raspagem.comercializacao_raspagem import ComercializacaoRaspagem
 from bs4 import BeautifulSoup
 from pathlib import Path
 
 
 class TestComercializacaoRaspagem(BaseTestRaspagem):
-    raspagem_class = ComercializacoRaspagem
+    raspagem_class = ComercializacaoRaspagem
     kwargs = {"ano": 2023}
 
     def setUp(self):
@@ -27,7 +27,7 @@ class TestComercializacaoRaspagem(BaseTestRaspagem):
         self.assertEqual(len(dados["Produto"]), 9)
 
         categorias = [
-            "VINHO DE MESA", "VINHO FINO DE MESA", "VINHO FRIZANTE", "VINHO ORGÂNICO",
+            "VINHO DE MESA", "VINHO FINO DE MESA", "VINHO FRIZANTE", "VINHO ORGANICO",
             "VINHO ESPECIAL", "ESPUMANTES", "SUCO DE UVAS",
             "SUCO DE UVAS CONCENTRADO", "OUTROS PRODUTOS COMERCIALIZADOS"
         ]
@@ -46,7 +46,7 @@ class TestComercializacaoRaspagem(BaseTestRaspagem):
     
     def test_quando_parser_executado_em_html_valido_entao_dados_extraidos_corretamente(self):
         """Cenário: Parser bem-sucedido extrai os dados corretamente"""
-        raspagem = ComercializacoRaspagem(2023)
+        raspagem = ComercializacaoRaspagem(2023)
         raspagem.html = BeautifulSoup(self.mock_html_content, "html.parser")
         dados = raspagem.parser_html()
 

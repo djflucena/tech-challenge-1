@@ -492,3 +492,1214 @@ src.repositories.exceptions.ErroConexaoBD: Erro de conexão com o banco: (psycop
 	Is the server running on that host and accepting TCP/IP connections?
 
 (Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.
+[2025-05-21 08:17:53] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:17:53] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:17:53] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:17:53] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:17:53] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:17:53] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:17:55] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:17:55] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:17:55] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:17:55] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:17:55] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:17:55] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:18:55] [ERROR] [src.services.producao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7b78fc3525c0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b78fc3525c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/producao_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b78fc3525c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 08:52:14] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:52:14] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:52:14] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:52:14] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:52:14] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:52:14] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:54:58] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:54:58] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:54:58] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:54:58] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:54:58] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:54:58] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:57:29] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:57:29] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:57:29] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 08:57:29] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 08:57:29] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 08:57:29] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:00:25] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:00:25] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:00:25] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:00:25] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:00:25] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:00:25] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:01:54] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:01:54] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:01:54] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:01:54] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:01:54] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:01:54] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:02:38] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:02:38] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:02:38] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:02:38] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:02:38] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:02:38] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:02:38] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:03:34] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:03:34] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:03:34] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:03:34] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:10:36] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:10:36] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:10:36] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:10:36] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:20:55] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:20:55] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:20:55] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:20:55] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:22:26] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:22:26] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:22:26] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:22:26] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:25:42] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:25:42] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:25:42] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:25:42] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:28:30] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:28:30] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:28:30] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:28:30] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:31:37] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:31:37] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:31:37] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:31:37] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:31:37] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:33:42] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:33:42] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:33:42] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:33:42] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:33:42] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:33:42] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:34:20] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:34:20] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:34:20] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:34:20] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:34:20] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:34:20] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:36:30] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:36:30] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:36:30] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:36:30] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:36:30] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:36:30] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:38:46] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:38:46] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:38:46] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:38:46] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:38:46] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:38:46] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:39:44] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:39:44] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:39:44] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:39:44] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:39:44] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:39:44] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [ERROR] [src.services.comercializacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:41:19] [WARNING] [src.services.comercializacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [WARNING] [src.services.comercializacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [ERROR] [src.services.exportacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:41:19] [WARNING] [src.services.exportacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [WARNING] [src.services.exportacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [ERROR] [src.services.importacao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:41:19] [WARNING] [src.services.importacao_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [WARNING] [src.services.importacao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [ERROR] [src.services.processamento_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:41:19] [WARNING] [src.services.processamento_service] Erro HTTP 500 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [WARNING] [src.services.processamento_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [ERROR] [src.services.producao_service] Falha ao interpretar HTML do ano 2023: falha no parser
+[2025-05-21 09:41:19] [WARNING] [src.services.producao_service] Erro HTTP 404 ao acessar ano 2023; usando dados locais.
+[2025-05-21 09:41:19] [WARNING] [src.services.producao_service] Timeout ao acessar dados do ano 2023; usando dados locais.
+[2025-05-21 10:20:18] [ERROR] [src.services.comercializacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff67f3760>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f3760>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/comercializacao_service.py", line 42, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f3760>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:20:42] [ERROR] [src.services.processamento_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f9e70>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9e70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/processamento_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9e70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:20:56] [ERROR] [src.services.importacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f9150>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/importacao_service.py", line 41, in get_por_ano
+    importacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:21:08] [ERROR] [src.services.exportacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f8d90>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8d90>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/exportacao_service.py", line 40, in get_por_ano
+    exportacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8d90>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:22] [ERROR] [src.services.producao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f8130>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8130>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/producao_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8130>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:22] [WARNING] [src.services.producao_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:22:29] [ERROR] [src.services.comercializacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f91b0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f91b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/comercializacao_service.py", line 42, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f91b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:29] [WARNING] [src.services.comercializacao_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:22:34] [ERROR] [src.services.processamento_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff67f1ff0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f1ff0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/processamento_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f1ff0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:34] [WARNING] [src.services.processamento_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:22:39] [ERROR] [src.services.importacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff67f3a00>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f3a00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/importacao_service.py", line 41, in get_por_ano
+    importacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f3a00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:39] [WARNING] [src.services.importacao_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:22:41] [ERROR] [src.services.importacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f9d50>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9d50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/importacao_service.py", line 41, in get_por_ano
+    importacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f9d50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:41] [WARNING] [src.services.importacao_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:22:46] [ERROR] [src.services.exportacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f81f0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f81f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/exportacao_service.py", line 40, in get_por_ano
+    exportacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f81f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:22:46] [WARNING] [src.services.exportacao_service] Sem dados no site nem no banco para o ano 1970.
+[2025-05-21 10:24:19] [ERROR] [src.services.producao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff67f00a0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f00a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/producao_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_02&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f00a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:24:19] [ERROR] [src.services.producao_service] Erro de persistência: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-21 10:24:28] [ERROR] [src.services.comercializacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff67f2470>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f2470>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/comercializacao_service.py", line 42, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?opcao=opt_04&ano=1970 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff67f2470>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:24:28] [ERROR] [src.services.comercializacao_service] Erro de persistência: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-21 10:24:39] [ERROR] [src.services.processamento_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f8670>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8670>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/processamento_service.py", line 41, in get_por_ano
+    raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/vitivinicultura_raspagem.py", line 38, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_03&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8670>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:24:39] [ERROR] [src.services.processamento_service] Erro de persistência: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-21 10:24:46] [ERROR] [src.services.importacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f8e50>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8e50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/importacao_service.py", line 41, in get_por_ano
+    importacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_05&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f8e50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:24:46] [ERROR] [src.services.importacao_service] Erro de persistência: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-21 10:24:50] [ERROR] [src.services.exportacao_service] Erro inesperado ao processar dados de 1970; usando dados locais.
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+  File "/usr/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x719ff63f85b0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f85b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/services/exportacao_service.py", line 40, in get_por_ano
+    exportacao_raspagem.buscar_html()
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/src/raspagem/comercio_exterior_raspagem.py", line 29, in buscar_html
+    response = requests.get(self.url, timeout=100)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/carloslessa/FCD/POSTECH/tech-challenge-1/venv/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='vitibrasil.cnpuv.embrapa.br', port=80): Max retries exceeded with url: /index.php?ano=1970&opcao=opt_06&subopcao=subopt_01 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719ff63f85b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-05-21 10:24:50] [ERROR] [src.services.exportacao_service] Erro de persistência: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-21 10:25:36] [WARNING] [src.services.producao_service] Impossível salvar cache: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.
+[2025-05-21 10:25:45] [WARNING] [src.services.comercializacao_service] Impossível salvar cache: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.
+[2025-05-21 10:25:54] [WARNING] [src.services.processamento_service] Impossível salvar cache: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.
+[2025-05-21 10:25:58] [WARNING] [src.services.importacao_service] Impossível salvar cache: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.
+[2025-05-21 10:26:04] [WARNING] [src.services.exportacao_service] Impossível salvar cache: Erro de conexão com o banco: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8); continuando com dados do site.

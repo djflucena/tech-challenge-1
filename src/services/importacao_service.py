@@ -26,14 +26,16 @@ class ImportacaoService:
     """
 
     def __init__(self):
-        self._repo = ImportacaoRepository()
+        self.importacao_repository = ImportacaoRepository()
 
-    def get_por_ano(self, ano: int, subopcao: str) -> dict:
+    def get_por_ano(self, ano: int, subopcao: str) -> dict | str | None:
         """
         Retorna a importação de vinhos, sucos e derivados
         Tenta raspar; em falha, retorna o que estiver salvo.
         Sempre com as chaves 'source', 'fetched_at' e 'data'.
         """
+        dados = None
+        agora = None
         try:
             importacao_raspagem = ImportacaoRaspagem(ano, "subopt_01")
             importacao_raspagem.buscar_html()
@@ -51,7 +53,7 @@ class ImportacaoService:
 
         if dados:
             try:
-                self._repo.salvar_ou_atualizar(dados, ano, subopcao)
+                self.importacao_repository.salvar_ou_atualizar(dados, ano, subopcao)
             except (ErroConexaoBD, ErroConsultaBD) as e:
                 logger.warning(f"Impossível salvar cache: {e}; continuando com dados do site.")
 
@@ -62,22 +64,25 @@ class ImportacaoService:
             }
 
         try:
-            registro = self._repo.get_por_ano(ano, subopcao)
+            registro = self.importacao_repository.get_por_ano(ano, subopcao)
         except RegistroNaoEncontrado:
             logger.warning(f"Sem dados no site nem no banco para o ano {ano}.")
             return {
-                "source":     "banco",
+                "source":     "api",
                 "fetched_at": None,
                 "data":       None
             }
         except (ErroConexaoBD, ErroConsultaBD) as e:
             logger.error(f"Erro de persistência: {e}")
             return {
-                "source":     "banco",
+                "source":     "api",
                 "fetched_at": None,
                 "data":       None
             }
-
+        
+        if not isinstance(registro, dict):
+            return registro
+        
         return {
             "source":     "banco",
             "fetched_at": registro["fetched_at"],

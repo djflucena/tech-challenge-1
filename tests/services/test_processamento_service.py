@@ -7,22 +7,23 @@ from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, 
 class TestComportamentoProcessamentoService(unittest.TestCase):
     def setUp(self):
         self.ano = 2023
+        self.subopcao = "subopt_01"
+
+        
 
     @patch("src.services.processamento_service.ProcessamentoRaspagem")
-    @patch("src.services.processamento_service.RawRepository")
     @patch("src.services.processamento_service.ProcessamentoRepository")
-    def test_quando_dados_validos_entao_salva_raw_e_final(self, mock_repo_final, mock_repo_raw, mock_raspagem):
+    def test_quando_dados_validos_entao_salva_raw_e_final(self, mock_repo_final, mock_raspagem):
         """Cenário: Dados disponíveis e válidos"""
         instance = mock_raspagem.return_value
         instance.buscar_html.return_value = None
         instance.parser_html.return_value = {"Total": 123, "Cultivar": []}
 
         service = ProcessamentoService()
-        service.get_por_ano(self.ano)
+        service.get_por_ano(self.ano, self.subopcao)
 
         instance.buscar_html.assert_called_once()
         instance.parser_html.assert_called_once()
-        mock_repo_raw.return_value.upsert.assert_called_once()
         mock_repo_final.return_value.salvar_ou_atualizar.assert_called_once()
 
     @patch("src.services.processamento_service.ProcessamentoRaspagem", side_effect=TimeoutRequisicao())
@@ -31,8 +32,8 @@ class TestComportamentoProcessamentoService(unittest.TestCase):
         """Cenário: Timeout na raspagem"""
         service = ProcessamentoService()
         with patch.object(service.processamento_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
 
     @patch("src.services.processamento_service.ProcessamentoRaspagem")
@@ -44,8 +45,8 @@ class TestComportamentoProcessamentoService(unittest.TestCase):
 
         service = ProcessamentoService()
         with patch.object(service.processamento_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
 
     @patch("src.services.processamento_service.ProcessamentoRaspagem")
@@ -58,6 +59,6 @@ class TestComportamentoProcessamentoService(unittest.TestCase):
 
         service = ProcessamentoService()
         with patch.object(service.processamento_repository, "get_por_ano", return_value="dados locais") as fallback:
-            resultado = service.get_por_ano(self.ano)
-            fallback.assert_called_once_with(self.ano)
+            resultado = service.get_por_ano(self.ano, self.subopcao)
+            fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")

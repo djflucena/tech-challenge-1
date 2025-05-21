@@ -14,6 +14,11 @@ class BaseTestRaspagem(unittest.TestCase):
     raspagem_class = None
     kwargs = {}
 
+    def setUp(self):
+        # se ninguém sobrescreveu raspagem_class, pule todos os testes deste base
+        if self.raspagem_class is None:
+            self.skipTest("BaseTestRaspagem: pulando testes abstratos")
+
     def simulate_response(self, status_code=200, text="<html><title>Banco de dados de uva</title></html>"):
         return Mock(status_code=status_code, text=text)
 
