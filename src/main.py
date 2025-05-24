@@ -1,43 +1,37 @@
-"""Controller para os endpoints da aplicação"""
-
+from fastapi import HTTPException, Query
+from http import HTTPStatus
 from typing import Annotated
-from fastapi import Query
-from fastapi import HTTPException
 
-from src.config import app
-from src.config import URL_BASE
-from src.services.importacao_service import ImportacaoService
-from src.services.exportacao_service import ExportacaoService
-from src.services.producao_service import ProducaoService
-from src.services.comercializacao_service import ComercializacaoService
-from src.services.processamento_service import ProcessamentoService
-from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
-from src.filters.ano_subopcao_param import AnoSubopcaoProcessamentoFilterParams
-from src.filters.ano_subopcao_param import AnoSubopcaoImportacaoFilterParams
-from src.filters.ano_subopcao_param import AnoSubopcaoExportacaoFilterParams
+from src.config import app, URL_BASE
 from src.config.logging_config import configurar_logging
 
-configurar_logging()
+from src.filters.ano_filter_params import AnoVitiviniculturaFilterParams
+from src.filters.ano_subopcao_param import (AnoSubopcaoExportacaoFilterParams,
+                                            AnoSubopcaoImportacaoFilterParams,
+                                            AnoSubopcaoProcessamentoFilterParams)
+
+from src.services.comercializacao_service import ComercializacaoService
+from src.services.exportacao_service import ExportacaoService
+from src.services.importacao_service import ImportacaoService
+from src.services.processamento_service import ProcessamentoService
+from src.services.producao_service import ProducaoService
+
+from src.schemas import ProducaoResponse
+
+# configurar_logging()
+
+T_AnoFilter = Annotated[AnoVitiviniculturaFilterParams, Query()]
 
 
-@app.get(URL_BASE + "/producao")
-async def producao(
-    ano_filter: Annotated[
-        AnoVitiviniculturaFilterParams,
-        Query(
-            description="""Ano de produção dos vinhos, 
-              sucos e derivados do Rio Grande do Sul."""
-        ),
-    ],
-):
+@app.get(URL_BASE + "/producao", response_model=ProducaoResponse)
+async def producao(ano_filter: T_AnoFilter):
     """
-    Endpoint para retornar a produção de vinhos,
-    sucos e derivados do Rio Grande do Sul.
+    Endpoint para retornar a produção de vinhos, sucos e derivados do Rio Grande do Sul.
     """
     try:
         return ProducaoService().get_por_ano(ano_filter.ano)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e)) from e
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=str(e))
 
 
 @app.get(URL_BASE + "/comercializacao")
