@@ -1,31 +1,26 @@
-from typing import List
-from datetime import datetime
 from pydantic import BaseModel, ConfigDict
+from typing import List
+
+from src.schemas.base_schema import BaseResponse
 
 
-class Tipo(BaseModel):
+class TipoItem(BaseModel):
     nome: str
     quantidade: int
 
 
-class Produto(BaseModel):
+class ProdutoItem(BaseModel):
     nome: str
     quantidade: int
-    tipo: List[Tipo]
+    tipo: List[TipoItem]
 
 
 class Producao(BaseModel):
-    produto: List[Produto]
+    produto: List[ProdutoItem]
     total: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class BaseResponse(BaseModel):
-    source: str
-    fetched_at: datetime
-
-
 class ProducaoResponse(BaseResponse):
     data: Producao
-

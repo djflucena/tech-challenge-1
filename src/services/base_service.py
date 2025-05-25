@@ -4,7 +4,7 @@ from typing import Any, Generic, Type, TypeVar
 
 from src.raspagem.raspagem_exceptions import ErroParser, ErroRequisicao, TimeoutRequisicao
 from src.repositories.exceptions import ErroConexaoBD, ErroConsultaBD, RegistroNaoEncontrado
-from src.schemas import BaseResponse
+from src.schemas.base_schema import BaseResponse
 
 
 T = TypeVar("T", bound=BaseResponse)

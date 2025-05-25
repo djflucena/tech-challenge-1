@@ -9,7 +9,7 @@ class ComercializacaoRaspagem(VitiviniculturaRaspagem):
     da comercialização de vinhos, sucos e derivados do Rio Grande do Sul.
     """
 
-    def __init__(self, ano: int):
+    def __init__(self, ano: int, subopcao: str | None):
         super().__init__()
         self.ano = ano
         self.construir_url()

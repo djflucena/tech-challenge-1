@@ -3,7 +3,7 @@ import logging
 from src.config.logging_config import configurar_logging
 from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.repositories.producao_repository import ProducaoRepository
-from src.schemas import Producao, ProducaoResponse, Produto, Tipo
+from src.schemas.producao_schema import Producao, ProducaoResponse, ProdutoItem, TipoItem
 from src.services.base_service import BaseService
 
 
@@ -35,9 +35,9 @@ class ProducaoService(BaseService[ProducaoResponse]):
             for tipo in item.get("TIPOS", []):
                 nome_tipo = next(iter(tipo))
                 qtd_tipo = tipo[nome_tipo]
-                tipos.append(Tipo(nome=nome_tipo, quantidade=qtd_tipo))
+                tipos.append(TipoItem(nome=nome_tipo, quantidade=qtd_tipo))
 
-            produtos.append(Produto(
+            produtos.append(ProdutoItem(
                                 nome=nome_produto,
                                 quantidade=qtd_produto,
                                 tipo=tipos))

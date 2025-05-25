@@ -1,90 +1,48 @@
-# src/services/processamento_service.py
-"""
-Service para processamento de vinhos, sucos e derivados
-do Rio Grande do Sul.
-"""
-
 import logging
-from datetime import datetime, timezone
+
+from src.config.logging_config import configurar_logging
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
 from src.repositories.processamento_repository import ProcessamentoRepository
-from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
-from src.repositories.exceptions import (
-    ErroConexaoBD,
-    ErroConsultaBD,
-    RegistroNaoEncontrado,
-)
-from src.config.logging_config import configurar_logging
+from src.schemas.processamento_schema import (CategoriaItem, Processamento,
+                                              ProcessamentoResponse, TipoItem)
+from src.services.base_service import BaseService
+
 
 configurar_logging()
 logger = logging.getLogger(__name__)
 
-class ProcessamentoService:
+class ProcessamentoService(BaseService[ProcessamentoResponse]):
     """
-    Service para Processamento de uvas
-    do Rio Grande do Sul.
+    Service para Processamento de uvas do Rio Grande do Sul.
     """
 
     def __init__(self):
-        self.processamento_repository = ProcessamentoRepository()
+        super().__init__(
+            response_cls=ProcessamentoResponse,
+            raspagem_cls=ProcessamentoRaspagem,
+            repository=ProcessamentoRepository(),
+            logger=logger
+        )
 
-    def get_por_ano(self, ano: int, subopcao: str) -> dict | str | None:
-        """
-        Retorna a processamento de uvas.
-        Tenta raspar; em falha, retorna o que estiver salvo.
-        Sempre com as chaves 'source', 'fetched_at' e 'data'.
-        """
-        dados = None
-        agora = None
-        try:
-            raspagem = ProcessamentoRaspagem(ano, subopcao)
-            raspagem.buscar_html()
-            dados = raspagem.parser_html()
-            agora = datetime.now(timezone.utc)
 
-        except TimeoutRequisicao:
-            logger.warning(f"Timeout ao acessar dados do ano {ano}; usando dados locais.")
-        except ErroRequisicao as e:
-            logger.warning(f"Erro HTTP {e.status_code} ao acessar ano {ano}; usando dados locais.")
-        except ErroParser as e:
-            logger.error(f"Falha ao interpretar HTML do ano {ano}: {e}")
-        except Exception:
-            logger.exception(f"Erro inesperado ao processar dados de {ano}; usando dados locais.")
+    def _transformar_json_para_modelo(self, dados_json: dict) -> Processamento:
+        categorias = []
 
-        if dados:
-            try:
-                self.processamento_repository.salvar_ou_atualizar(dados, ano, subopcao)
-            except (ErroConexaoBD, ErroConsultaBD) as e:
-                logger.warning(f"Impossível salvar cache: {e}; continuando com dados do site.")
+        for item in dados_json["Cultivar"]:
+            categoria = next(k for k in item if k != "TIPOS")
+            quantidade = item[categoria]
 
-            return {
-                "source":     "site",
-                "fetched_at": agora,
-                "data":       dados
-            }
+            tipos = []
+            for tipo in item["TIPOS"]:
+                if not tipo:
+                    continue
+                nome, quantidade = next(iter(tipo.items()))
+                tipos.append(TipoItem(nome=nome, quantidade=quantidade))
 
-        try:
-            registro = self.processamento_repository.get_por_ano(ano, subopcao)
-        except RegistroNaoEncontrado:
-            logger.warning(f"Sem dados no site nem no banco para o ano {ano}.")
-            return {
-                "source":     "api",
-                "fetched_at": None,
-                "data":       None
-            }
-        except (ErroConexaoBD, ErroConsultaBD) as e:
-            logger.error(f"Erro de persistência: {e}")
-            return {
-                "source":     "api",
-                "fetched_at": None,
-                "data":       None
-            }
-        
-        if not isinstance(registro, dict):
-            return registro
-        
-        return {
-            "source":     "banco",
-            "fetched_at": registro["fetched_at"],
-            "data":       registro["data"]
-        }
+            categorias.append(CategoriaItem(
+                categoria=categoria,
+                quantidade=quantidade,
+                tipos=tipos
+            ))
+
+        return Processamento(cultivar=categorias, total=dados_json["Total"])
