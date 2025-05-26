@@ -1,6 +1,6 @@
+import logging
 from abc import ABC, abstractmethod 
 from datetime import datetime, timezone
-from logging import Logger
 
 from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 from src.raspagem.raspagem_exceptions import ErroParser, ErroRequisicao, TimeoutRequisicao
@@ -11,9 +11,9 @@ from src.schemas.base_schema import BaseResponse
 
 class BaseService(ABC):
 
-    def __init__(self, repository: RawRepository, logger: Logger):
+    def __init__(self, repository: RawRepository):
+        self.logger = logging.getLogger(self.__class__.__module__)
         self.repository = repository
-        self.logger = logger
 
     
     def get_por_ano(self, ano: int, subopcao: str | None = None) -> BaseResponse:

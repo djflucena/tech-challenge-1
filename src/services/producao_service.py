@@ -1,21 +1,17 @@
-import logging
 from datetime import datetime
 
-from src.config.logging_config import configurar_logging
 from src.raspagem.producao_raspagem import ProducaoRaspagem
 from src.repositories.producao_repository import ProducaoRepository
 from src.schemas.producao_schema import Producao, ProducaoResponse, ProdutoItem, TipoItem
 from src.services.base_service import BaseService
 
 
-configurar_logging()
-logger = logging.getLogger(__name__)
-
-
 class ProducaoService(BaseService):
-
+    """
+    Service para a prodrução de vinhos, sucos e derivados do Rio Grande do Sul.
+    """
     def __init__(self):
-        super().__init__(repository=ProducaoRepository(), logger=logger)
+        super().__init__(repository=ProducaoRepository())
 
 
     def get_raspagem(self, ano: int, subopcao: str) -> ProducaoRaspagem:

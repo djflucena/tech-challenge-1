@@ -1,7 +1,5 @@
-import logging
 from datetime import datetime
 
-from src.config.logging_config import configurar_logging
 from src.raspagem.comercializacao_raspagem import ComercializacaoRaspagem
 from src.repositories.comercializacao_repository import ComercializacaoRepository
 from src.schemas.comercializacao_schema import (Comercializacao, ComercializacaoResponse,
@@ -9,14 +7,13 @@ from src.schemas.comercializacao_schema import (Comercializacao, Comercializacao
 from src.services.base_service import BaseService
 
 
-configurar_logging()
-logger = logging.getLogger(__name__)
-
-
 class ComercializacaoService(BaseService):
+    """
+    Service para comercialização de vinhos, sucos e derivados do Rio Grande do Sul.
+    """
 
     def __init__(self):
-        super().__init__(repository=ComercializacaoRepository(), logger=logger)
+        super().__init__(repository=ComercializacaoRepository())
 
 
     def get_raspagem(self, ano: int, subopcao: str) -> ComercializacaoRaspagem:

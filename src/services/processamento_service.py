@@ -1,7 +1,5 @@
-import logging
 from datetime import datetime
 
-from src.config.logging_config import configurar_logging
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
 from src.repositories.processamento_repository import ProcessamentoRepository
 from src.schemas.processamento_schema import (CategoriaItem, Processamento,
@@ -9,17 +7,12 @@ from src.schemas.processamento_schema import (CategoriaItem, Processamento,
 from src.services.base_service import BaseService
 
 
-configurar_logging()
-logger = logging.getLogger(__name__)
-
-
 class ProcessamentoService(BaseService):
     """
     Service para Processamento de uvas do Rio Grande do Sul.
     """
-
     def __init__(self):
-        super().__init__(repository=ProcessamentoRepository(), logger=logger)
+        super().__init__(repository=ProcessamentoRepository())
 
     
     def get_raspagem(self, ano: int, subopcao: str) -> ProcessamentoRaspagem:
