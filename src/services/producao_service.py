@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from src.config.logging_config import configurar_logging
 from src.raspagem.producao_raspagem import ProducaoRaspagem
@@ -11,17 +12,24 @@ configurar_logging()
 logger = logging.getLogger(__name__)
 
 
-class ProducaoService(BaseService[ProducaoResponse]):
+class ProducaoService(BaseService):
 
     def __init__(self):
-        super().__init__(
-            response_cls=ProducaoResponse,
-            raspagem_cls=ProducaoRaspagem,
-            repository=ProducaoRepository(),
-            logger=logger
+        super().__init__(repository=ProducaoRepository(), logger=logger)
+
+
+    def get_raspagem(self, ano: int, subopcao: str) -> ProducaoRaspagem:
+        return ProducaoRaspagem(ano, subopcao)
+
+
+    def get_reponse(self, source: str, fetched_at: datetime, data: dict) -> ProducaoResponse:
+        return ProducaoResponse(
+            source = source,
+            fetched_at = fetched_at, 
+            data = self._transformar_json_para_modelo(data)
         )
 
-       
+
     def _transformar_json_para_modelo(self, dados_json: dict) -> Producao:
         produtos = []
 

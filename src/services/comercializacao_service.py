@@ -1,5 +1,5 @@
 import logging
-from pydantic import ValidationError
+from datetime import datetime
 
 from src.config.logging_config import configurar_logging
 from src.raspagem.comercializacao_raspagem import ComercializacaoRaspagem
@@ -12,16 +12,25 @@ from src.services.base_service import BaseService
 configurar_logging()
 logger = logging.getLogger(__name__)
 
-class ComercializacaoService(BaseService[ComercializacaoResponse]):
+
+class ComercializacaoService(BaseService):
+
     def __init__(self):
-        super().__init__(
-            response_cls=ComercializacaoResponse,
-            raspagem_cls=ComercializacaoRaspagem,
-            repository=ComercializacaoRepository(),
-            logger=logger
+        super().__init__(repository=ComercializacaoRepository(), logger=logger)
+
+
+    def get_raspagem(self, ano: int, subopcao: str) -> ComercializacaoRaspagem:
+        return ComercializacaoRaspagem(ano, subopcao)
+    
+
+    def get_reponse(self, source: str, fetched_at: datetime, data: dict) -> ComercializacaoResponse:
+        return ComercializacaoResponse(
+            source = source,
+            fetched_at = fetched_at, 
+            data = self._transformar_json_para_modelo(data)
         )
 
-   
+
     def _transformar_json_para_modelo(self, dados_json: dict) -> Comercializacao:
         produtos = []
         

@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from src.config.logging_config import configurar_logging
 from src.raspagem.importacao_raspagem import ImportacaoRaspagem
@@ -11,19 +12,22 @@ configurar_logging()
 logger = logging.getLogger(__name__)
 
 
-class ImportacaoService(BaseService[ImportacaoResponse]):
+class ImportacaoService(BaseService):
     """
     Service para importação de vinhos, sucos e derivados do Rio Grande do Sul.
     """
 
     def __init__(self):
-        super().__init__(
-            response_cls=ImportacaoResponse,
-            raspagem_cls=ImportacaoRaspagem,
-            repository=ImportacaoRepository(),
-            logger=logger
+        super().__init__(repository=ImportacaoRepository(), logger=logger)
+
+
+    def get_raspagem(self, ano: int, subopcao: str) -> ImportacaoRaspagem:
+        return ImportacaoRaspagem(ano, subopcao)
+
+
+    def get_reponse(self, source: str, fetched_at: datetime, data: dict) -> ImportacaoResponse:
+        return ImportacaoResponse(
+            source = source, 
+            fetched_at = fetched_at, 
+            data = Importacao(**data)
         )
-
-
-    def _transformar_json_para_modelo(self, dados_json: dict) -> Importacao:
-        return Importacao(**dados_json)

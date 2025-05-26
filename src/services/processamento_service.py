@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from src.config.logging_config import configurar_logging
 from src.raspagem.processamento_raspagem import ProcessamentoRaspagem
@@ -11,17 +12,25 @@ from src.services.base_service import BaseService
 configurar_logging()
 logger = logging.getLogger(__name__)
 
-class ProcessamentoService(BaseService[ProcessamentoResponse]):
+
+class ProcessamentoService(BaseService):
     """
     Service para Processamento de uvas do Rio Grande do Sul.
     """
 
     def __init__(self):
-        super().__init__(
-            response_cls=ProcessamentoResponse,
-            raspagem_cls=ProcessamentoRaspagem,
-            repository=ProcessamentoRepository(),
-            logger=logger
+        super().__init__(repository=ProcessamentoRepository(), logger=logger)
+
+    
+    def get_raspagem(self, ano: int, subopcao: str) -> ProcessamentoRaspagem:
+        return ProcessamentoRaspagem(ano, subopcao)
+    
+
+    def get_reponse(self, source: str, fetched_at: datetime, data: dict) -> ProcessamentoResponse:
+        return ProcessamentoResponse(
+            source = source,
+            fetched_at = fetched_at, 
+            data = self._transformar_json_para_modelo(data)
         )
 
 

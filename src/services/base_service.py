@@ -1,30 +1,27 @@
 from abc import ABC, abstractmethod 
 from datetime import datetime, timezone
-from typing import Any, Generic, Type, TypeVar
+from logging import Logger
 
+from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
 from src.raspagem.raspagem_exceptions import ErroParser, ErroRequisicao, TimeoutRequisicao
+from src.repositories.raw_repository import RawRepository
 from src.repositories.exceptions import ErroConexaoBD, ErroConsultaBD, RegistroNaoEncontrado
 from src.schemas.base_schema import BaseResponse
 
 
-T = TypeVar("T", bound=BaseResponse)
+class BaseService(ABC):
 
-
-class BaseService(ABC, Generic[T]):
-
-    def __init__(self, response_cls: Type[T], raspagem_cls: Any, repository: Any, logger: Any):
-        self.response_cls = response_cls
-        self.raspagem_cls = raspagem_cls
+    def __init__(self, repository: RawRepository, logger: Logger):
         self.repository = repository
         self.logger = logger
 
     
-    def get_por_ano(self, ano: int, subopcao: str | None = None) -> T:
+    def get_por_ano(self, ano: int, subopcao: str | None = None) -> BaseResponse:
         dados = None
         agora = None
 
         try:
-            raspagem = self.raspagem_cls(ano, subopcao)
+            raspagem = self.get_raspagem(ano, subopcao)
             raspagem.buscar_html()
             dados = raspagem.parser_html()
             agora = datetime.now(timezone.utc)
@@ -36,12 +33,8 @@ class BaseService(ABC, Generic[T]):
                     f'[Cache/DB] Falha ao salvar/atualizar os dados no banco: {e}.'
                     f' Dados continuarão sendo utilizados a partir da raspagem (site).'
                 )
-
-            return self.response_cls(
-                source = 'site',
-                fetched_at = agora,
-                data = self._transformar_json_para_modelo(dados)
-            )
+        
+            return self.get_reponse(source = 'site', fetched_at = agora, data = dados)
 
         except Exception as e:
             self._log_exception(e, ano)
@@ -49,11 +42,9 @@ class BaseService(ABC, Generic[T]):
             try:
                 registro = self.repository.get_por_ano(ano, subopcao)
                 if registro:
-                    return self.response_cls(
-                        source = 'banco',
-                        fetched_at = registro['fetched_at'],
-                        data = self._transformar_json_para_modelo(registro['data'])
-                    )
+                    return self.get_reponse(source = 'banco',
+                                            fetched_at = registro['fetched_at'],
+                                            data = registro['data'])
 
             except RegistroNaoEncontrado as e:
                 self.logger.warning(
@@ -66,9 +57,14 @@ class BaseService(ABC, Generic[T]):
 
 
     @abstractmethod
-    def _transformar_json_para_modelo(data: dict) -> Any:
+    def get_raspagem(self, ano: int, subopcao: str) -> VitiviniculturaRaspagem:
         pass
 
+
+    @abstractmethod
+    def get_reponse(self, source: str, fetched_at: datetime, data: dict) -> BaseResponse:
+        pass
+        
 
     def _log_exception(self, e, ano):
         if isinstance(e, TimeoutRequisicao):
