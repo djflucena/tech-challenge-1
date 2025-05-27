@@ -14,7 +14,7 @@ from src.repositories.exceptions import (
 )
 
 class RawRepository:
-    def __init__(self, categoria: str, has_subopcao: bool):
+    def __init__(self, categoria: str, has_subopcao: bool = False):
         """
         Repositório genérico para qualquer endpoint de vitivinicultura.
         Guarda internamente o nome do endpoint (categoria) e se aceita subopcao.
