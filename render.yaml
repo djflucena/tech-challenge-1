@@ -1,0 +1,19 @@
+# render.yaml
+
+databases:
+  - name: vitivinicultura-db
+    engine: postgres
+    plan: free
+    region: oregon
+
+services:
+  - type: web
+    name: vitivinicultura-api
+    env: docker
+    branch: main
+    region: oregon
+    plan: free
+    dockerfilePath: Dockerfile-app
+    envVars:
+      - key: URL_SITE_EMBRAPA
+        value: "http://vitibrasil.cnpuv.embrapa.br/index.php"
