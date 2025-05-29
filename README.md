@@ -39,6 +39,7 @@ docker-compose up -d
 alembic upgrade head
 ```
 
+
 ### 7. Acessar o banco de dados PostgreSQL
 ```bash
 docker exec -it tech-challenge-1_db_1 psql -U postgres -d vitivinicultura
