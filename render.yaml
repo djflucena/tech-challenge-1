@@ -10,7 +10,7 @@ services:
   - type: web
     name: vitivinicultura-api
     env: docker
-    branch: main
+    branch: 6-containerizacao
     region: oregon
     plan: free
     dockerfilePath: Dockerfile-app
