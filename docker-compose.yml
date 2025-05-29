@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile.db
+      dockerfile: Dockerfile-db-postgres
     image: postgres:16
     restart: always
     environment:
@@ -22,7 +22,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile-app
     image: vitivinicultura-api:latest
     restart: always
     depends_on:
