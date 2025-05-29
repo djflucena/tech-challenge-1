@@ -1,11 +1,10 @@
-# docker-compose.yml
 version: '3.8'
 
 services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.db
     image: postgres:16
     restart: always
     environment:
@@ -13,14 +12,39 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: exemplo
       POSTGRES_INITDB_ARGS: >-
-        --encoding=UTF-8
-        --lc-collate=pt_BR.UTF-8
-        --lc-ctype=pt_BR.UTF-8
+        --encoding=UTF-8 --lc-collate=pt_BR.UTF-8 --lc-ctype=pt_BR.UTF-8
     ports:
       - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: vitivinicultura-api:latest
+    restart: always
+    depends_on:
+      - db
+    environment:
+      # Configuração do Postgres (usada pelo entrypoint.sh)
+      - POSTGRES_DB=vitivinicultura
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=exemplo
+      - DB_HOST=db
+      - DB_PORT=5432
+
+      # Conexão SQLAlchemy
+      - DATABASE_URL=postgresql://postgres:exemplo@db:5432/vitivinicultura
+
+      # Constantes da aplicação
+      - URL_SITE_EMBRAPA=http://vitibrasil.cnpuv.embrapa.br/index.php
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./:/app
+    # O ENTRYPOINT está definido no Dockerfile.app, apontando para /app/entrypoint.sh
 
 volumes:
   pgdata:
-  

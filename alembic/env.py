@@ -10,6 +10,10 @@ from alembic import context
 config = context.config
 
 import os
+db_url = os.getenv("DATABASE_URL")
+if db_url:
+    config.set_main_option("sqlalchemy.url", db_url)
+
 import sys
 # garante que o diretório src/ esteja no path de importação
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
