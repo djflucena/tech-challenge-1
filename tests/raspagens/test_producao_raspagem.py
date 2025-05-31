@@ -8,7 +8,7 @@ from pathlib import Path
 
 class TestProducaoRaspagem(BaseTestRaspagem):
     raspagem_class = ProducaoRaspagem
-    kwargs = {"ano": 1970}
+    kwargs = {"ano": 1970, 'subopcao': None}
 
     def setUp(self):
         super().setUp()
