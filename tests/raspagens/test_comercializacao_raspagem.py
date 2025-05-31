@@ -8,7 +8,7 @@ from pathlib import Path
 
 class TestComercializacaoRaspagem(BaseTestRaspagem):
     raspagem_class = ComercializacaoRaspagem
-    kwargs = {"ano": 2023}
+    kwargs = {"ano": 2023, "subopcao": None}
 
     def setUp(self):
         super().setUp()
@@ -46,7 +46,7 @@ class TestComercializacaoRaspagem(BaseTestRaspagem):
     
     def test_quando_parser_executado_em_html_valido_entao_dados_extraidos_corretamente(self):
         """Cenário: Parser bem-sucedido extrai os dados corretamente"""
-        raspagem = ComercializacaoRaspagem(2023)
+        raspagem = ComercializacaoRaspagem(2023, None)
         raspagem.html = BeautifulSoup(self.mock_html_content, "html.parser")
         dados = raspagem.parser_html()
 

@@ -28,7 +28,7 @@ class TestComportamentoProducaoService(unittest.TestCase):
     def test_quando_timeout_entao_retorna_dados_locais(self, mock_repo_final, _):
         """Cenário: Timeout na raspagem"""
         service = ProducaoService()
-        with patch.object(service.producao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano)
             fallback.assert_called_once_with(self.ano)
             self.assertEqual(resultado, "dados locais")
@@ -41,7 +41,7 @@ class TestComportamentoProducaoService(unittest.TestCase):
         instance.buscar_html.side_effect = ErroRequisicao(404)
 
         service = ProducaoService()
-        with patch.object(service.producao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano)
             fallback.assert_called_once_with(self.ano)
             self.assertEqual(resultado, "dados locais")
@@ -55,7 +55,7 @@ class TestComportamentoProducaoService(unittest.TestCase):
         instance.parser_html.side_effect = ErroParser("falha no parser")
 
         service = ProducaoService()
-        with patch.object(service.producao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano)
             fallback.assert_called_once_with(self.ano)
             self.assertEqual(resultado, "dados locais")

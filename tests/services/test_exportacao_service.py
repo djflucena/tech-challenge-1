@@ -15,7 +15,9 @@ class TestComportamentoExportacaoService(unittest.TestCase):
         """Cenário: Dados disponíveis e válidos"""
         instance = mock_raspagem.return_value
         instance.buscar_html.return_value = None
-        instance.parser_html.return_value = {"total": {}, "paises": []}
+        instance.parser_html.return_value = {
+            "total": {"quantidade": 0, "valor": 0}, "paises": []
+        }
 
         service = ExportacaoService()
         service.get_por_ano(self.ano, self.subopcao)
@@ -29,7 +31,7 @@ class TestComportamentoExportacaoService(unittest.TestCase):
     def test_quando_timeout_entao_retorna_dados_locais(self, mock_repo_final, _):
         """Cenário: Timeout na raspagem"""
         service = ExportacaoService()
-        with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano, self.subopcao)
             fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
@@ -42,7 +44,7 @@ class TestComportamentoExportacaoService(unittest.TestCase):
         instance.buscar_html.side_effect = ErroRequisicao(500)
 
         service = ExportacaoService()
-        with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano, self.subopcao)
             fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
@@ -56,7 +58,7 @@ class TestComportamentoExportacaoService(unittest.TestCase):
         instance.parser_html.side_effect = ErroParser("falha no parser")
 
         service = ExportacaoService()
-        with patch.object(service.exportacao_repository, "get_por_ano", return_value="dados locais") as fallback:
+        with patch.object(service, "get_por_ano", return_value="dados locais") as fallback:
             resultado = service.get_por_ano(self.ano, self.subopcao)
             fallback.assert_called_once_with(self.ano, self.subopcao)
             self.assertEqual(resultado, "dados locais")
