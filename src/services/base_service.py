@@ -2,7 +2,7 @@ import logging
 from abc import ABC, abstractmethod 
 from datetime import datetime, timezone
 
-from src.raspagem.vitivinicultura_raspagem import VitiviniculturaRaspagem
+from src.raspagem.base_raspagem import BaseRaspagem
 from src.raspagem.raspagem_exceptions import ErroParser, ErroRequisicao, TimeoutRequisicao
 from src.repositories.raw_repository import RawRepository
 from src.repositories.exceptions import ErroConexaoBD, ErroConsultaBD, RegistroNaoEncontrado
@@ -57,7 +57,7 @@ class BaseService(ABC):
 
 
     @abstractmethod
-    def get_raspagem(self, ano: int, subopcao: str) -> VitiviniculturaRaspagem:
+    def get_raspagem(self, ano: int, subopcao: str) -> BaseRaspagem:
         pass
 
 
