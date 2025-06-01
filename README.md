@@ -37,7 +37,7 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 
 ### ⚙️ Funcionamento Geral da API
 
-![API Vitivinicultura-visao-geral drawio](https://github.com/user-attachments/assets/d30b7b2a-a541-42bb-ae29-87990af19382)
+![API Vitivinicultura-visao-geral-2 drawio](https://github.com/user-attachments/assets/de8530e8-f041-4488-8d12-37a953d2de4f)
 
 O funcionamento da API segue a seguinte lógica:
 
@@ -58,7 +58,7 @@ O funcionamento da API segue a seguinte lógica:
 
 ## Arquitetura do Projeto
 
-![API Vitivinicultura-arquitetura drawio](https://github.com/user-attachments/assets/60588d49-0e64-4d50-9a37-84534509fbc7)
+![API Vitivinicultura-arquitetura-3 drawio](https://github.com/user-attachments/assets/021ebbaf-a08a-49be-b798-bdd079e963e4)
 
 
 ## Estrutura do Projeto
