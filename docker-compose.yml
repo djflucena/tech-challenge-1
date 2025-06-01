@@ -42,9 +42,6 @@ services:
       - URL_SITE_EMBRAPA=http://vitibrasil.cnpuv.embrapa.br/index.php
     ports:
       - '8000:8000'
-    volumes:
-      - ./:/app
-    # O ENTRYPOINT está definido no Dockerfile.app, apontando para /app/entrypoint.sh
 
 volumes:
   pgdata:

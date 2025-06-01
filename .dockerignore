@@ -1,0 +1,26 @@
+# Python
+**/__pycache__/
+**/*.pyc
+venv/
+.venv/
+
+# Logs 
+logs/
+*.log
+
+# Configurações de ambiente sensíveis
+.env
+.env.local
+.env.*.local
+
+# Ferramentas/editor
+.idea/
+.vscode/
+*.swp
+
+# Pasta de testes
+tests/
+
+# Git
+.git/
+.gitignore
