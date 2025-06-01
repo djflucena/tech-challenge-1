@@ -3,25 +3,18 @@ Classe abstrata para raspagem de dados de vitivinicultura:
 Produção, Processamento e Comercialização
 """
 
-from abc import ABC, abstractmethod
-from bs4 import BeautifulSoup
-import requests
-from src.utils import extrair_numeros
-from src.utils import remover_acentos
-from src.config import URL_SITE_EMBRAPA
-from requests.exceptions import Timeout
-from src.raspagem.raspagem_exceptions import ErroRequisicao, TimeoutRequisicao, ErroParser
+from abc import abstractmethod
+
+from src.raspagem.base_raspagem import BaseRaspagem
+from src.raspagem.raspagem_exceptions import ErroParser
+from src.utils import extrair_numeros, remover_acentos
 
 
-class VitiviniculturaRaspagem(ABC):
+class VitiviniculturaRaspagem(BaseRaspagem):
     """
     Classe abstrata para raspagem de dados de vitivinicultura:
     Produção, Processamento e Comercialização.
     """
-
-    def __init__(self):
-        self.url: str = URL_SITE_EMBRAPA
-        self.html: BeautifulSoup
 
     @abstractmethod
     def construir_url(self):
@@ -30,19 +23,6 @@ class VitiviniculturaRaspagem(ABC):
         Cada subclasse deve implementar este método.
         """
 
-    def buscar_html(self) -> None:
-        """
-        Método para buscar o HTML da página.
-        """
-        try:
-            response = requests.get(self.url, timeout=100)
-            if response.status_code == 200:
-                self.html = BeautifulSoup(response.text, "html.parser")
-            else:
-                raise ErroRequisicao(response.status_code)
-        except Timeout as e:
-            raise TimeoutRequisicao()
-        
 
     def parser_html(self) -> dict:
         """

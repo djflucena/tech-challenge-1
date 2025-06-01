@@ -1,9 +1,9 @@
 """Classe responsável por realizar a raspagem de dados de exportação."""
 
-from src.raspagem.comercio_exterior_raspagem import ComercioExteriorRaspagemAbstract
+from src.raspagem.comercio_exterior_raspagem import ComercioExteriorRaspagem
 
 
-class ExportacaoRaspagem(ComercioExteriorRaspagemAbstract):
+class ExportacaoRaspagem(ComercioExteriorRaspagem):
     """Classe responsável por realizar a raspagem de dados de
     exportação de vinhos, sucos e derivados do Rio Grande do Sul."""
 
