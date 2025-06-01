@@ -11,15 +11,15 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 - Importação e exportação de derivados de uva
 
 
-## 📌 Funcionalidades
+## Funcionalidades
 
-- 🔍 Consulta em tempo real dos dados de vitivinicultura
-- 📦 API RESTful com endpoints padronizados
-- 📊 Filtros por ano
-- 📁 Respostas em formato JSON
+- Consulta em tempo real dos dados de vitivinicultura
+- API RESTful com endpoints padronizados
+- Filtros por ano
+- Respostas em formato JSON
 
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Python 3.11+
 - FastAPI
@@ -33,7 +33,35 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 - SQLAlchemy
 
 
-## 📁 Estrutura do Projeto
+## Visão Geral do Projeto
+
+### ⚙️ Funcionamento Geral da API
+
+![API Vitivinicultura-visao-geral drawio](https://github.com/user-attachments/assets/d30b7b2a-a541-42bb-ae29-87990af19382)
+
+O funcionamento da API segue a seguinte lógica:
+
+1. **Consulta primária ao site da Embrapa**  
+   Ao receber uma requisição, a API tenta acessar o site da Embrapa para realizar a raspagem (_web scraping_) dos dados de vitivinicultura.
+
+2. **Raspagem bem-sucedida**  
+   Se a raspagem for concluída com sucesso:
+   - Os dados extraídos são imediatamente retornados ao cliente solicitante.
+   - Simultaneamente, a API tenta armazenar os dados em um banco de dados local, com o objetivo de manter uma cópia para eventuais usos futuros (mecanismo de _fallback_).
+
+3. **Falha na raspagem — uso de fallback**  
+   Caso ocorra uma falha na raspagem (por exemplo, indisponibilidade do site da Embrapa ou erro de rede):
+   - A API busca os dados previamente armazenados no banco de dados.
+     - **Se os dados estiverem disponíveis no banco:** eles são retornados ao cliente como resposta à requisição.
+     - **Se os dados não estiverem disponíveis:** a API informa ao cliente que não foi possível recuperar os dados solicitados no momento.
+
+
+## Arquitetura do Projeto
+
+![API Vitivinicultura-arquitetura drawio](https://github.com/user-attachments/assets/60588d49-0e64-4d50-9a37-84534509fbc7)
+
+
+## Estrutura do Projeto
 
 Estrutura com os principais módulos e arquivos do projeto.
 
@@ -60,8 +88,12 @@ tech-challenge-1
 
 ```
 
+## Estrutura dos Principais Módulos
 
-## ⚙️ Instalação
+![API Vitivinicultura-heranca-classes-atualizada drawio](https://github.com/user-attachments/assets/d12f71c5-9a21-4d8d-885a-d7c8b636ee68)
+
+
+## Instalação
 
 1. **Clone o repositório:**
 ```bash
@@ -92,7 +124,7 @@ docker-compose up -d
 alembic upgrade head
 ```
 
-## ▶️ Execução
+## Execução
 
 ```bash
 fastapi dev src/main.py
@@ -116,7 +148,7 @@ Os testes cobrem:
 - Validação de erros e respostas inválidas
 
 
-## 📤 Endpoints Principais
+## Endpoints Principais
 
 | Método | Rota                | Descrição                                                |
 | ------ | ------------------- | -------------------------------------------------------- |
@@ -130,11 +162,11 @@ Os testes cobrem:
 ⚠️ As rotas aceitam filtros por ano.
 
 
-## 🗄️ Acesso ao Banco de Dados
+## Acesso ao Banco de Dados
 
 Seguem orientações para configuração e uso da base de dados PostgreSQL.
 
-### 🔐 Acessar o banco de dados PostgreSQL
+### Acessar o banco de dados PostgreSQL
 
 Para acessar a instância do banco de dados PostgreSQL no container:
 
@@ -142,7 +174,7 @@ Para acessar a instância do banco de dados PostgreSQL no container:
 docker exec -it tech-challenge-1_db_1 psql -U postgres -d vitivinicultura
 ```
 
-### 🛠️ Comandos úteis no `psql`
+### Comandos úteis no `psql`
 
 No prompt do `psql`, você pode executar os seguintes comandos:
 
