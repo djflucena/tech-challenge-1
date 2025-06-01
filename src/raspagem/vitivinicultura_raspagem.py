@@ -34,6 +34,8 @@ class VitiviniculturaRaspagem(BaseRaspagem):
             table_footer_total_text = data_table.find("tfoot").findChildren("td")[0].string.strip()  # type: ignore
             table_footer_total_val = extrair_numeros(
                 data_table.find("tfoot").findChildren("td")[1].string.strip())  # type: ignore
+            
+            table_header_coluna_esquerda_sem_acentos = remover_acentos(table_header_coluna_esquerda)
 
             produtos = []
             id_item_corrente = None
@@ -53,7 +55,7 @@ class VitiviniculturaRaspagem(BaseRaspagem):
         except Exception as e:
             raise ErroParser("Erro ao processar o HTML") from e
         return {
-            table_header_coluna_esquerda: produtos,
+            table_header_coluna_esquerda_sem_acentos: produtos,
             table_footer_total_text: table_footer_total_val,
         }
 
