@@ -220,7 +220,7 @@ Esses comandos são úteis para validar a estrutura do banco, verificar registro
 ## Acesso à API:
 
 * 📚 [Link Público](https://vitivinicultura-api-fhrc.onrender.com/docs)
-* 🎥 [Vídeo de apresentação]()  
+* 🎥 [Vídeo de apresentação](https://youtu.be/Jv6XvzIos-Q)  
 * 💻 [Repositório no GitHub](https://github.com/djflucena/tech-challenge-1)
 
 
