@@ -19,18 +19,19 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 - Respostas em formato JSON
 
 
-## Tecnologias Utilizadas
 
-- Python 3.11+
-- FastAPI
-- Alembic
-- BeautifulSoup
-- Uvicorn
-- Unittest
-- Requests
-- Pydantic
-- PostgreSQL
-- SQLAlchemy
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3.11+**
+- **FastAPI**
+- **Alembic** (para migrações de banco)
+- **BeautifulSoup** (para web scraping)
+- **Uvicorn** (servidor ASGI)
+- **Unittest** (testes automatizados)
+- **Requests** (para requisições HTTP)
+- **Pydantic** (validação de dados)
+- **PostgreSQL** (banco de dados relacional)
+- **SQLAlchemy** (ORM)
 
 
 ## Visão Geral do Projeto
@@ -95,53 +96,69 @@ tech-challenge-1
 
 ## Instalação
 
-1. **Clone o repositório:**
+* **Clone o repositório:**  
+
 ```bash
 git clone https://github.com/djflucena/tech-challenge-1.git
 cd tech-challenge-1/
 ```
 
-2. **Crie e ative um ambiente virtual (opcional, mas recomendado):**
+## Modos de execução
+
+### 1. 🐳 Execução com Docker
+
+* **Construir e iniciar os containers Docker:**  
+
+```bash
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+### 2. 💻 Execução Local
+
+1. **Criar e ativar ambiente virtual:**  
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
 ```
 
-### 3. **Instale as dependências**
+2. **Instalar dependências:**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Construa e inicie os containers Docker
-```bash
-docker-compose build --no-cache
-docker-compose up -d
-```
+3. **Iniciar o PostgreSQL localmente**
 
-### 6. Aplique as migrações do banco de dados
+* Garantir que DATABASE_URL aponte para o banco local  
+
+4. **Aplicar migrações alembic:**
+
 ```bash
 alembic upgrade head
 ```
 
-## Execução
+5. **Executar a API:**
 
 ```bash
 fastapi dev src/main.py
 ```
-A API estará disponível em: http://127.0.0.1:8000
 
-Documentação interativa (Swagger): http://127.0.0.1:8000/docs
+## Disponibilidade da API:
+
+* 🚀 A API estará disponível em: http://127.0.0.1:8000  
+* 📚 Documentação Swagger: http://127.0.0.1:8000/docs  
 
 
 ## 🧪 Testes
 
-Para rodar os testes automatizados:
+* Para rodar os testes automatizados:
 ```bash
 python -m unittest
 ```
 
-Os testes cobrem:
+**Os testes cobrem:**
 
 - Respostas dos endpoints
 - Coleta e estruturação de dados da Embrapa
@@ -162,21 +179,33 @@ Os testes cobrem:
 ⚠️ As rotas aceitam filtros por ano.
 
 
-## Acesso ao Banco de Dados
+## 🔍 Acesso ao Banco de Dados
 
-Seguem orientações para configuração e uso da base de dados PostgreSQL.
+**É possível acessar o banco de dados tanto no ambiente **Dockerizado** quanto no **ambiente local**, dependendo de como a aplicação foi executada.**
 
-### Acessar o banco de dados PostgreSQL
+### 1. 🐳 Banco de Dados no Docker
 
-Para acessar a instância do banco de dados PostgreSQL no container:
+Se você estiver rodando com Docker, o PostgreSQL estará dentro do container. Para acessá-lo:  
 
 ```bash
 docker exec -it tech-challenge-1_db_1 psql -U postgres -d vitivinicultura
 ```
 
-### Comandos úteis no `psql`
+### 2. 💻 Banco de Dados Local
 
-No prompt do `psql`, você pode executar os seguintes comandos:
+Se estiver rodando a aplicação localmente com um PostgreSQL instalado na máquina:  
+* Conectar ao banco local (ajuste as credenciais conforme sua DATABASE_URL)  
+
+```bash
+psql -U seu_usuario -d vitivinicultura -h localhost -W
+```
+
+> Substitua `seu_usuario` pelo usuário correto configurado no seu PostgreSQL local.
+
+
+### 🧰 Comandos úteis no `psql`
+
+Após conectar ao banco, você pode usar os seguintes comandos para inspecionar a estrutura e os dados:  
 
 ```sql
 \dn \\ -- Listar esquemas
@@ -186,8 +215,6 @@ No prompt do `psql`, você pode executar os seguintes comandos:
 \dv vitivinicultura.* \\ -- Listar visões (views) no esquema "vitivinicultura"
 
 \d+ vitivinicultura.* \\ -- Ver todas as tabelas, views, colunas e tipos no esquema "vitivinicultura"
-
 ```
 
-Esses comandos são úteis para inspecionar a estrutura do banco, validar dados e depurar problemas
-durante o desenvolvimento da API.
+Esses comandos são úteis para validar a estrutura do banco, verificar registros e depurar problemas durante o desenvolvimento ou testes da API.
