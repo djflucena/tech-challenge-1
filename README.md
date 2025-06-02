@@ -19,8 +19,7 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 - Respostas em formato JSON
 
 
-
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Python 3.11+**
 - **FastAPI**
@@ -36,7 +35,7 @@ fornecidos pela Embrapa Uva e Vinho. Os dados abrangem as seguintes áreas:
 
 ## Visão Geral do Projeto
 
-### ⚙️ Funcionamento Geral da API
+### Funcionamento Geral da API
 
 ![API Vitivinicultura-visao-geral-2 drawio](https://github.com/user-attachments/assets/de8530e8-f041-4488-8d12-37a953d2de4f)
 
@@ -145,13 +144,12 @@ alembic upgrade head
 fastapi dev src/main.py
 ```
 
-## Disponibilidade da API:
-
+### Acesso local
 * 🚀 A API estará disponível em: http://127.0.0.1:8000  
-* 📚 Documentação Swagger: http://127.0.0.1:8000/docs  
+* 📚 Documentação Swagger: http://127.0.0.1:8000/docs
 
 
-## 🧪 Testes
+## Testes
 
 * Para rodar os testes automatizados:
 ```bash
@@ -218,3 +216,17 @@ Após conectar ao banco, você pode usar os seguintes comandos para inspecionar 
 ```
 
 Esses comandos são úteis para validar a estrutura do banco, verificar registros e depurar problemas durante o desenvolvimento ou testes da API.
+
+## Acesso à API:
+
+* 📚 [Link Público](https://vitivinicultura-api-fhrc.onrender.com/docs)
+* 🎥 [Vídeo de apresentação]()  
+* 💻 [Repositório no GitHub](https://github.com/djflucena/tech-challenge-1)
+
+
+## Equipe
+
+* Carlos Lessa - carlosvblessa
+* David Lucena - djflucena
+* Marcelo Malta - marcelotmalta
+* Willian Alves - wbgalves
